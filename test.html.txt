@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JS Test</title>
+<style>
+body{background:#060606;color:#F0EDE8;font-family:monospace;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;gap:16px;margin:0}
+button{background:#F0EDE8;color:#060606;border:none;padding:16px 32px;font-size:16px;font-weight:700;cursor:pointer;border-radius:4px}
+#log{font-size:12px;color:#3D9B5A;margin-top:16px;text-align:center;line-height:2}
+</style>
+</head>
+<body>
+<div style="font-size:24px;font-weight:900;letter-spacing:4px">JS TEST</div>
+<button onclick="test1()">BUTONA TIK</button>
+<div id="log">Butona basin...</div>
+<script>
+document.getElementById('log').textContent = 'JS YUKLENDI ✓';
+function test1(){
+  var el = document.getElementById('log');
+  el.textContent = 'CALISIYOR! ' + new Date().toLocaleTimeString();
+  el.style.color = '#C9A84C';
+}
+</script>
+</body>
+</html>
