@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>LISTED Admin</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:#060606;color:#F0EDE8;font-family:'DM Sans',sans-serif}
+.sm{font-family:'Space Mono',monospace}
+input,select,textarea{background:#111!important;color:#F0EDE8!important;-webkit-text-fill-color:#F0EDE8!important;border:1px solid #2A2A2A;border-radius:2px;padding:14px;font-size:15px;width:100%;margin-bottom:10px;outline:none;-webkit-appearance:none}
+input::placeholder,textarea::placeholder{color:#444!important;-webkit-text-fill-color:#444!important}
+input:-webkit-autofill{-webkit-box-shadow:0 0 0 1000px #111 inset!important;-webkit-text-fill-color:#F0EDE8!important}
+.btn{background:#F0EDE8;color:#060606;border:none;border-radius:2px;padding:14px;font-family:'Space Mono',monospace;font-weight:700;font-size:12px;letter-spacing:2px;cursor:pointer;width:100%;margin-bottom:8px}
+.btn:active{opacity:.7}
+.btn.s{background:none;color:#F0EDE8;border:1px solid #2A2A2A;font-size:11px}
+.btn.d{background:rgba(192,57,43,.15);color:#C0392B;border:1px solid rgba(192,57,43,.3)}
+.scr{display:none;min-height:100vh}
+.scr.on{display:block}
+.nav{background:rgba(6,6,6,.97);border-bottom:1px solid #1C1C1C;padding:14px 16px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:50}
+.ntl{font-family:'Space Mono',monospace;font-weight:700;font-size:13px;letter-spacing:2px}
+.sp{flex:1}
+.pad{padding:20px 16px 80px}
+.card{background:#111;border:1px solid #1C1C1C;border-radius:2px;margin-bottom:8px;overflow:hidden}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer}
+.ch:active{background:#1C1C1C}
+.cn{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:1px}
+.cm{font-family:'Space Mono',monospace;font-size:8px;color:#666;margin-top:3px}
+.cb{display:none;padding:0 14px 14px;gap:8px;flex-direction:column}
+.cb.op{display:flex}
+.badge{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:1px;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.bp{background:rgba(201,168,76,.1);color:#C9A84C;border:1px solid rgba(201,168,76,.3)}
+.ba{background:rgba(61,155,90,.1);color:#3D9B5A;border:1px solid rgba(61,155,90,.3)}
+.br{background:rgba(192,57,43,.1);color:#C0392B;border:1px solid rgba(192,57,43,.3)}
+.bu{background:rgba(100,100,100,.08);color:#666;border:1px solid #2A2A2A}
+.act{padding:10px;border-radius:2px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;cursor:pointer;border:none;text-align:center;width:100%;-webkit-appearance:none}
+.act:active{opacity:.6}
+.act.ap{background:rgba(61,155,90,.08);color:#3D9B5A;border:1px solid rgba(61,155,90,.2)}
+.act.rj{background:rgba(192,57,43,.07);color:#C0392B;border:1px solid rgba(192,57,43,.15)}
+.tabs{display:flex;border-bottom:1px solid #1C1C1C;overflow-x:auto;scrollbar-width:none;position:sticky;top:52px;z-index:40;background:#060606}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1;min-width:60px;padding:11px 4px;font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.5px;text-align:center;color:#666;cursor:pointer;background:none;border:none;border-bottom:2px solid transparent;white-space:nowrap;-webkit-appearance:none}
+.tab:active{opacity:.6}
+.tab.on{color:#F0EDE8;border-bottom-color:#F0EDE8}
+.pan{display:none;padding:16px}.pan.on{display:block}
+.err{font-family:'Space Mono',monospace;font-size:9px;color:#C0392B;text-align:center;min-height:18px;margin-bottom:8px}
+.st-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.st{background:#111;border:1px solid #1C1C1C;border-radius:2px;padding:12px 4px;text-align:center}
+.st-n{font-family:'Space Mono',monospace;font-size:28px;font-weight:900;line-height:1}
+.st-l{font-family:'Space Mono',monospace;font-size:6px;color:#666;letter-spacing:1px;margin-top:2px}
+.g{color:#3D9B5A}.r2{color:#C0392B}.go{color:#C9A84C}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#F0EDE8;color:#060606;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:10px 20px;border-radius:2px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1}
+.spin{width:22px;height:22px;border:2px solid rgba(255,255,255,.15);border-top-color:#F0EDE8;border-radius:50%;animation:spin .7s linear infinite;margin:30px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:30px 20px;font-family:'Space Mono',monospace;font-size:8px;color:#666;letter-spacing:1px;line-height:2.5}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+
+<div class="scr on" id="s-login">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 28px">
+    <div style="font-family:'Space Mono',monospace;font-weight:900;font-size:24px;letter-spacing:6px;margin-bottom:6px;text-align:center" id="login-brand">LISTED</div>
+    <div style="font-family:'Space Mono',monospace;font-size:8px;color:#666;letter-spacing:3px;margin-bottom:40px">ADMIN PANELI</div>
+    <div style="width:100%;max-width:320px">
+      <input type="text" id="inp-user" placeholder="Kullanici adi" autocomplete="off">
+      <input type="password" id="inp-pw" placeholder="Sifre">
+      <div class="err" id="login-err"></div>
+      <button class="btn" onclick="doLogin()">GIRIS YAP</button>
+      <div style="text-align:center;margin-top:12px">
+        <a href="index.html" style="font-family:'Space Mono',monospace;font-size:9px;color:#444;text-decoration:underline">Ana sayfa</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+
+<div class="scr" id="s-admin">
+  <div class="nav">
+    <span class="ntl" id="adm-brand">LISTED</span>
+    <div style="display:flex;align-items:center;gap:5px;margin-left:8px">
+      <span style="width:5px;height:5px;border-radius:50%;background:#3D9B5A;display:inline-block"></span>
+      <span style="font-family:'Space Mono',monospace;font-size:7px;color:#3D9B5A">CANLI</span>
+    </div>
+    <div class="sp"></div>
+    <button class="btn s" style="width:auto;padding:6px 12px;margin:0;font-size:8px" onclick="doLogout()">CIKIS</button>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="aTab('ov')">GENEL</button>
+    <button class="tab" onclick="aTab('mb')">UYELER</button>
+    <button class="tab" onclick="aTab('ev')">ETKINLIK</button>
+    <button class="tab" onclick="aTab('rs')">REZ.</button>
+    <button class="tab" onclick="aTab('qr')">QR</button>
+    <button class="tab" onclick="aTab('marka')">MARKA</button>
+  </div>
+
+  <!-- GENEL -->
+
+  <div class="pan on" id="pan-ov">
+    <div class="st-grid" id="sts"><div class="spin" style="grid-column:1/-1"></div></div>
+    <div style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:#666;margin-bottom:8px">SON BASVURULAR</div>
+    <div id="rec-m"></div>
+    <div style="border-top:1px solid #1C1C1C;margin:16px 0"></div>
+    <div style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:#666;margin-bottom:8px">SON REZERVASYONLAR</div>
+    <div id="rec-r"></div>
+  </div>
+
+  <!-- UYELER -->
+
+  <div class="pan" id="pan-mb">
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+      <button class="btn s" style="width:auto;padding:6px 12px;margin:0;font-size:9px;color:#F0EDE8;border-color:#666" onclick="loadM('')">TUMU</button>
+      <button class="btn s" style="width:auto;padding:6px 12px;margin:0;font-size:9px" onclick="loadM('pending')">BEKLEYEN</button>
+      <button class="btn s" style="width:auto;padding:6px 12px;margin:0;font-size:9px" onclick="loadM('approved')">ONAYLANDI</button>
+    </div>
+    <div id="m-list"></div>
+  </div>
+
+  <!-- ETKINLIK -->
+
+  <div class="pan" id="pan-ev">
+    <div style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:#666;margin-bottom:12px">YENI ETKINLIK</div>
+    <div style="background:#111;border:1px solid #1C1C1C;border-radius:2px;padding:14px;margin-bottom:14px">
+      <div id="poster-zone" style="border:2px dashed #2A2A2A;border-radius:2px;padding:24px;text-align:center;cursor:pointer;background:#070707;margin-bottom:10px;position:relative">
+        <input type="file" accept="image/*" onchange="onPoster(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;margin:0">
+        <div style="font-size:32px;margin-bottom:6px">🖼️</div>
+        <div style="font-family:Space Mono,monospace;font-size:8px;color:#666;letter-spacing:1px">AFİŞ YÜKLE (otomatik sıkıştırılır)</div>
+      </div>
+      <div id="poster-prev" style="display:none;margin-bottom:10px;border-radius:2px;overflow:hidden;position:relative">
+        <img id="poster-img" style="width:100%;aspect-ratio:4/5;object-fit:cover;display:block">
+        <button onclick="rmPoster()" style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.8);border:1px solid #2A2A2A;color:#F0EDE8;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-appearance:none">✕</button>
+        <div id="poster-size" style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.7);font-family:Space Mono,monospace;font-size:8px;color:#3D9B5A;padding:3px 8px;border-radius:2px;letter-spacing:1px"></div>
+      </div>
+      <input type="text" id="ne-name" placeholder="Etkinlik / Sanatci adi">
+      <input type="text" id="ne-genre" placeholder="Muzik turu (Techno, House...)">
+      <input type="text" id="ne-sub" placeholder="Alt baslik (opsiyonel)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <input type="date" id="ne-date" style="margin-bottom:0">
+        <input type="time" id="ne-time" value="22:00" style="margin-bottom:0">
+      </div>
+      <div style="height:10px"></div>
+      <input type="time" id="ne-tend" value="04:00" placeholder="Bitis saati">
+      <input type="number" id="ne-cap" placeholder="Kapasite" value="100">
+      <select id="ne-cat">
+        <option value="electronic">Elektronik Muzik</option>
+        <option value="live_music">Canli Muzik</option>
+        <option value="standup">Stand Up</option>
+        <option value="culture">Kultur / Sanat</option>
+        <option value="other">Diger</option>
+      </select>
+      <select id="ne-acc">
+        <option value="open">Acik etkinlik</option>
+        <option value="members_only">Sadece uyeler</option>
+      </select>
+      <button class="btn" id="add-btn" onclick="addEvt()">ETKINLIK OLUSTUR</button>
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:#666;margin-bottom:8px">MEVCUT ETKINLIKLER</div>
+    <div id="ev-list"></div>
+  </div>
+
+  <!-- REZERVASYONLAR -->
+
+  <div class="pan" id="pan-rs">
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <select id="filt-ev" style="flex:1;margin-bottom:0" onchange="loadRes()"></select>
+      <button class="btn s" style="width:44px;margin:0;font-size:18px;padding:0" onclick="loadRes()">↻</button>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+      <button class="btn s" style="width:auto;padding:6px 12px;margin:0;font-size:9px;color:#F0EDE8;border-color:#666" onclick="window._rf='';loadRes()">TUMU</button>
+      <button class="btn s" style="width:auto;padding:6px 12px;margin:0;font-size:9px" onclick="window._rf='pending';loadRes()">BEKLEYEN</button>
+      <button class="btn s" style="width:auto;padding:6px 12px;margin:0;font-size:9px" onclick="window._rf='approved';loadRes()">ONAYLANDI</button>
+    </div>
+    <div id="r-list"></div>
+  </div>
+
+  <!-- MARKA -->
+
+  <div class="pan" id="pan-marka">
+    <div style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:#666;margin-bottom:12px">LOGO</div>
+    <div id="logo-zone" style="border:2px dashed #2A2A2A;border-radius:2px;padding:24px;text-align:center;cursor:pointer;background:#070707;margin-bottom:10px;position:relative">
+      <input type="file" accept="image/*" onchange="onLogo(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;margin:0">
+      <div style="font-size:32px;margin-bottom:6px">🏷️</div>
+      <div style="font-family:Space Mono,monospace;font-size:8px;color:#666;letter-spacing:1px">LOGO YUKLE</div>
+    </div>
+    <div id="logo-prev" style="display:none;margin-bottom:10px;border-radius:2px;overflow:hidden;position:relative">
+      <img id="logo-img" style="width:100%;max-height:160px;object-fit:contain;display:block;background:#0a0a0a;padding:16px">
+      <button onclick="rmLogo()" style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.8);border:1px solid #2A2A2A;color:#F0EDE8;font-size:13px;cursor:pointer">✕</button>
+    </div>
+    <div style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:#666;margin-bottom:12px;margin-top:16px">MEKAN BİLGİLERİ</div>
+    <input type="text" id="br-name" class="btn" placeholder="Mekan adi" style="background:#111;color:#F0EDE8;border:1px solid #2A2A2A;text-align:left;font-weight:400;font-size:14px;letter-spacing:0;margin-bottom:8px;padding:13px 14px">
+    <input type="text" id="br-tag" class="btn" placeholder="Slogan / tagline" style="background:#111;color:#F0EDE8;border:1px solid #2A2A2A;text-align:left;font-weight:400;font-size:14px;letter-spacing:0;margin-bottom:8px;padding:13px 14px">
+    <input type="text" id="br-city" class="btn" placeholder="Sehir" style="background:#111;color:#F0EDE8;border:1px solid #2A2A2A;text-align:left;font-weight:400;font-size:14px;letter-spacing:0;margin-bottom:8px;padding:13px 14px">
+    <input type="text" id="br-ig" class="btn" placeholder="@instagram" style="background:#111;color:#F0EDE8;border:1px solid #2A2A2A;text-align:left;font-weight:400;font-size:14px;letter-spacing:0;margin-bottom:8px;padding:13px 14px">
+    <input type="text" id="br-wa" class="btn" placeholder="WhatsApp (+905...)" style="background:#111;color:#F0EDE8;border:1px solid #2A2A2A;text-align:left;font-weight:400;font-size:14px;letter-spacing:0;margin-bottom:16px;padding:13px 14px">
+    <div style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:#666;margin-bottom:12px">RENKLER</div>
+    <div style="display:flex;align-items:center;gap:12px;background:#111;border:1px solid #2A2A2A;border-radius:2px;padding:12px 14px;margin-bottom:8px">
+      <span style="font-family:Space Mono,monospace;font-size:8px;color:#666;letter-spacing:2px;flex:1">VURGU RENGI</span>
+      <input type="color" id="br-accent" value="#C9A84C" style="width:44px;height:28px;border:none;border-radius:2px;cursor:pointer;background:none;padding:0">
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;background:#111;border:1px solid #2A2A2A;border-radius:2px;padding:12px 14px;margin-bottom:16px">
+      <span style="font-family:Space Mono,monospace;font-size:8px;color:#666;letter-spacing:2px;flex:1">ARKA PLAN RENGI</span>
+      <input type="color" id="br-bg" value="#060606" style="width:44px;height:28px;border:none;border-radius:2px;cursor:pointer;background:none;padding:0">
+    </div>
+    <button class="btn" onclick="saveBrand()">KAYDET</button>
+    <div style="margin-top:16px;border-top:1px solid #1C1C1C;padding-top:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <div style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:#666;margin-bottom:2px">MASA REZERVASYONU</div>
+          <div style="font-family:Space Mono,monospace;font-size:7px;color:#444;letter-spacing:1px">Rezervasyon formuna masa secimi ekler</div>
+        </div>
+        <button id="masa-toggle" onclick="toggleTables()" style="font-family:Space Mono,monospace;font-size:8px;padding:8px 14px;border-radius:2px;cursor:pointer;border:1px solid #2A2A2A;background:none;color:#666;-webkit-appearance:none">KAPALI</button>
+      </div>
+      <div id="masa-pan" style="display:none">
+        <div id="masa-list" style="margin-bottom:10px"></div>
+        <div style="background:#0a0a0a;border:1px solid #1C1C1C;border-radius:2px;padding:12px">
+          <div style="font-family:Space Mono,monospace;font-size:8px;color:#666;letter-spacing:2px;margin-bottom:10px">YENI MASA EKLE</div>
+          <input type="text" id="masa-inp" placeholder="Masa adi (A1, VIP, Teras 2...)" style="width:100%;background:#111;border:1px solid #2A2A2A;border-radius:2px;padding:11px 13px;font-size:14px;color:#F0EDE8;outline:none;-webkit-appearance:none;margin-bottom:8px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+            <div>
+              <div style="font-family:Space Mono,monospace;font-size:7px;color:#666;letter-spacing:1px;margin-bottom:4px">KİŞİ KAPASİTESİ</div>
+              <input type="number" id="masa-cap" placeholder="4" min="1" max="50" style="width:100%;background:#111;border:1px solid #2A2A2A;border-radius:2px;padding:10px 12px;font-size:14px;color:#F0EDE8;outline:none;-webkit-appearance:none">
+            </div>
+            <div>
+              <div style="font-family:Space Mono,monospace;font-size:7px;color:#666;letter-spacing:1px;margin-bottom:4px">MIN. HARCAMA (₺)</div>
+              <input type="number" id="masa-min" placeholder="0" min="0" style="width:100%;background:#111;border:1px solid #2A2A2A;border-radius:2px;padding:10px 12px;font-size:14px;color:#F0EDE8;outline:none;-webkit-appearance:none">
+            </div>
+          </div>
+          <select id="masa-zone" style="width:100%;background:#111;border:1px solid #2A2A2A;border-radius:2px;padding:10px 12px;font-size:13px;color:#F0EDE8;outline:none;-webkit-appearance:none;margin-bottom:10px">
+            <option value="">-- Bolge (opsiyonel) --</option>
+            <option value="ic">İc Alan</option>
+            <option value="dis">Dis Alan / Bahce</option>
+            <option value="teras">Teras</option>
+            <option value="vip">VIP</option>
+            <option value="bar">Bar Onü</option>
+            <option value="sahne">Sahne Onü</option>
+          </select>
+          <button onclick="addTable()" style="width:100%;background:#F0EDE8;color:#060606;border:none;border-radius:2px;padding:12px;font-family:Space Mono,monospace;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:2px;-webkit-appearance:none">+ MASA EKLE</button>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;border-top:1px solid #1C1C1C;padding-top:16px">
+      <div style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:#666;margin-bottom:8px">MEKAN LINKI</div>
+      <div id="venue-url" style="background:#0a0a0a;border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:12px 14px;font-family:Space Mono,monospace;font-size:11px;color:#C9A84C;letter-spacing:1px;margin-bottom:8px;word-break:break-all">—</div>
+      <button class="btn s" onclick="copyUrl()" style="background:none;border:1px solid #2A2A2A;color:#F0EDE8;font-size:11px">URL KOPYALA</button>
+    </div>
+  </div>
+
+  <!-- QR -->
+
+  <div class="pan" id="pan-qr">
+    <div style="background:#070707;border:1px solid #1C1C1C;border-radius:2px;padding:24px 16px;text-align:center">
+      <div style="font-size:44px;margin-bottom:12px">📷</div>
+      <div style="font-family:'Space Mono',monospace;font-size:8px;color:#666;margin-bottom:16px;letter-spacing:1px">QR KODU MANUEL GIR</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <input type="text" id="qr-inp" placeholder="LST-XXXXXXXX" style="flex:1;margin:0;text-transform:uppercase;letter-spacing:2px;font-family:'Space Mono',monospace">
+        <button class="btn" style="width:auto;padding:0 16px;margin:0" onclick="scanQR()">TARA</button>
+      </div>
+      <div id="qr-res" style="display:none;border-radius:2px;padding:16px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;line-height:2;text-align:center"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var SB = 'https://ilybetbphzzgotruiegm.supabase.co';
+var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlseWJldGJwaHp6Z290cnVpZWdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDQ5OTEsImV4cCI6MjA5MDcyMDk5MX0.REb1XLJdDMxS_TrJgUoVpFI8qe8XZB7fqBxIfX3AYSg';
+var SLUG = new URLSearchParams(location.search).get('v') || 'notinparis';
+var CREDS = { notinparis: { user: 'Baycura', pw: 'gulsenabdullah' } };
+var venue = null;
+window._rf = '';
+window._posterB64 = null;
+
+// Restore session
+if (sessionStorage.getItem('adm_' + SLUG)) {
+  show('s-admin');
+  loadVenue().then(function() { aTab('ov'); });
+}
+
+function show(id) {
+  document.querySelectorAll('.scr').forEach(function(s) { s.classList.remove('on'); });
+  var el = document.getElementById(id);
+  if (el) el.classList.add('on');
+}
+
+function db(table) {
+  var _t = table, _f = [], _sel = '*', _ord = null, _lim = null, _single = false;
+  function url() {
+    var u = SB + '/rest/v1/' + _t + '?select=' + _sel;
+    _f.forEach(function(f) { u += '&' + f; });
+    if (_ord) u += '&order=' + _ord;
+    if (_lim) u += '&limit=' + _lim;
+    return u;
+  }
+  function h(extra) {
+    var hd = { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+    if (extra) Object.keys(extra).forEach(function(k) { hd[k] = extra[k]; });
+    return hd;
+  }
+  var q = {
+    select: function(s) { _sel = s; return q; },
+    eq: function(c, v) { _f.push(c + '=eq.' + encodeURIComponent(v)); return q; },
+    gte: function(c, v) { _f.push(c + '=gte.' + encodeURIComponent(v)); return q; },
+    order: function(c, o) { _ord = c + (o && o.ascending === false ? '.desc' : '.asc'); return q; },
+    limit: function(n) { _lim = n; return q; },
+    single: function() { _single = true; return q; },
+    insert: function(data) {
+      return fetch(SB + '/rest/v1/' + _t, { method: 'POST', headers: h(), body: JSON.stringify(data) })
+        .then(function(r) { return r.json().then(function(d) { return { data: Array.isArray(d) ? d[0] : d, error: r.ok ? null : { message: JSON.stringify(d), code: d && d.code } }; }); })
+        .catch(function(e) { return { data: null, error: { message: e.message } }; });
+    },
+    update: function(data) {
+      return fetch(url(), { method: 'PATCH', headers: h(), body: JSON.stringify(data) })
+        .then(function(r) { return r.json().then(function(d) { return { data: d, error: r.ok ? null : { message: JSON.stringify(d) } }; }); })
+        .catch(function(e) { return { data: null, error: { message: e.message } }; });
+    },
+    delete: function() {
+      return fetch(url(), { method: 'DELETE', headers: h() })
+        .then(function(r) { return { data: null, error: r.ok ? null : { message: 'err' } }; })
+        .catch(function(e) { return { data: null, error: { message: e.message } }; });
+    },
+    then: function(res, rej) {
+      var u = url();
+      if (_single) u += '&limit=1';
+      return fetch(u, { headers: h() })
+        .then(function(r) {
+          return r.json().then(function(d) {
+            var result;
+            if (_single) result = { data: Array.isArray(d) ? (d[0] || null) : d, error: r.ok ? null : { message: JSON.stringify(d) } };
+            else result = { data: Array.isArray(d) ? d : [], error: r.ok ? null : { message: JSON.stringify(d) } };
+            return result;
+          });
+        })
+        .catch(function(e) { return { data: null, error: { message: e.message } }; })
+        .then(res, rej);
+    }
+  };
+  return q;
+}
+
+async function loadVenue() {
+  var r = await db('venues').eq('slug', SLUG).single();
+  if (r.data) {
+    venue = r.data;
+    var el = document.getElementById('adm-brand');
+    if (el) el.textContent = venue.name;
+    document.getElementById('login-brand').textContent = venue.name;
+  }
+}
+
+async function doLogin() {
+  var user = document.getElementById('inp-user').value.trim();
+  var pw = document.getElementById('inp-pw').value;
+  var err = document.getElementById('login-err');
+  err.textContent = '';
+  if (!user || !pw) { err.textContent = 'Gerekli alanlar eksik'; return; }
+  // Check hardcoded first
+  var local = CREDS[SLUG];
+  if (local && user === local.user && pw === local.pw) {
+    sessionStorage.setItem('adm_' + SLUG, '1');
+    show('s-admin');
+    await loadVenue();
+    aTab('ov');
+    return;
+  }
+  // Try Supabase
+  err.textContent = 'Kontrol ediliyor...';
+  if (!venue) await loadVenue();
+  if (venue && user === venue.admin_username && pw === venue.admin_password) {
+    sessionStorage.setItem('adm_' + SLUG, '1');
+    show('s-admin');
+    aTab('ov');
+    return;
+  }
+  err.textContent = 'Gecersiz kullanici adi veya sifre';
+}
+
+function doLogout() {
+  sessionStorage.removeItem('adm_' + SLUG);
+  show('s-login');
+}
+
+function aTab(tab) {
+  var tabs = ['ov', 'mb', 'ev', 'rs', 'qr'];
+  document.querySelectorAll('.tab').forEach(function(x, i) { x.classList.toggle('on', tabs[i] === tab); });
+  document.querySelectorAll('.pan').forEach(function(x) { x.classList.remove('on'); });
+  var p = document.getElementById('pan-' + tab);
+  if (p) p.classList.add('on');
+  if (tab === 'ov') loadOv();
+  if (tab === 'mb') loadM('');
+  if (tab === 'ev') loadEvts();
+  if (tab === 'rs') { loadResFilter(); loadRes(); }
+  if (tab === 'marka') { loadBrandForm(); }
+}
+
+async function loadOv() {
+  var q1 = db('profiles').select('status');
+  var q2 = db('reservations').select('status');
+  if (venue) { q1 = q1.eq('venue_id', venue.id); q2 = q2.eq('venue_id', venue.id); }
+  var r1 = await q1, r2 = await q2;
+  var ms = r1.data || [], rs = r2.data || [];
+  document.getElementById('sts').innerHTML =
+    '<div class="st"><div class="st-n go">' + ms.filter(function(m) { return m.status === 'pending'; }).length + '</div><div class="st-l">BEKLEYEN</div></div>' +
+    '<div class="st"><div class="st-n g">' + ms.filter(function(m) { return m.status === 'approved'; }).length + '</div><div class="st-l">UYELER</div></div>' +
+    '<div class="st"><div class="st-n r2">' + rs.filter(function(r) { return r.status === 'pending'; }).length + '</div><div class="st-l">REZ.</div></div>';
+  var qm = db('profiles').select('id,name,email,status,phone').order('created_at', { ascending: false }).limit(4);
+  if (venue) qm = qm.eq('venue_id', venue.id);
+  var rm = await qm;
+  renderMCards(rm.data || [], 'rec-m');
+  var qr = db('reservations').select('id,name,event_name,status,phone,guest_count,qr_id,event_date').order('created_at', { ascending: false }).limit(5);
+  if (venue) qr = qr.eq('venue_id', venue.id);
+  var rr = await qr;
+  renderRCards(rr.data || [], 'rec-r');
+}
+
+async function loadM(status) {
+  var el = document.getElementById('m-list');
+  el.innerHTML = '<div class="spin"></div>';
+  var q = db('profiles').select('id,name,email,status,phone,instagram,member_code,trust_score,total_attended').order('created_at', { ascending: false });
+  if (venue) q = q.eq('venue_id', venue.id);
+  if (status) q = q.eq('status', status);
+  var r = await q;
+  renderMCards(r.data || [], 'm-list');
+}
+
+function renderMCards(list, cid) {
+  var el = document.getElementById(cid);
+  if (!list.length) { el.innerHTML = '<div class="empty">Kayit yok.</div>'; return; }
+  el.innerHTML = '';
+  list.forEach(function(m) {
+    var bc = { pending: 'bp', approved: 'ba', rejected: 'br', frozen: 'bu' }[m.status] || 'bu';
+    var bt = { pending: 'BEKLEMEDE', approved: 'ONAYLANDI', rejected: 'REDDEDILDI', frozen: 'DONDURULDU' }[m.status] || m.status;
+    var card = document.createElement('div'); card.className = 'card';
+    var hdr = document.createElement('div'); hdr.className = 'ch';
+    hdr.onclick = function() { this.nextElementSibling.classList.toggle('op'); };
+    var nd = document.createElement('div'); nd.style.flex = '1';
+    var nm = document.createElement('div'); nm.className = 'cn'; nm.textContent = m.name || '--';
+    var mt = document.createElement('div'); mt.className = 'cm'; mt.textContent = (m.email || '') + (m.phone ? ' · ' + m.phone : '');
+    var bg = document.createElement('span'); bg.className = 'badge ' + bc; bg.textContent = bt;
+    nd.appendChild(nm); nd.appendChild(mt); hdr.appendChild(nd); hdr.appendChild(bg); card.appendChild(hdr);
+    var body = document.createElement('div'); body.className = 'cb';
+    if (m.status === 'pending') {
+      var b1 = document.createElement('button'); b1.className = 'act ap'; b1.textContent = 'ONAYLA';
+      (function(id) { b1.onclick = function() { apprvM(id, cid); }; })(m.id);
+      var b2 = document.createElement('button'); b2.className = 'act rj'; b2.textContent = 'REDDET';
+      (function(id) { b2.onclick = function() { rejM(id, cid); }; })(m.id);
+      body.appendChild(b1); body.appendChild(b2);
+    }
+    if (m.member_code) {
+      var cb2 = document.createElement('div');
+      cb2.style.cssText = 'background:#070707;border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:9px;font-family:Space Mono,monospace;font-size:12px;color:#C9A84C;letter-spacing:4px;text-align:center';
+      cb2.textContent = m.member_code; body.appendChild(cb2);
+    }
+    var det = document.createElement('div');
+    det.style.cssText = 'font-family:Space Mono,monospace;font-size:8px;color:#666;line-height:2;padding:8px 0;border-top:1px solid #1C1C1C';
+    det.textContent = 'IG: ' + (m.instagram || '--') + ' | Puan: ' + (m.trust_score || 0) + ' | Katilim: ' + (m.total_attended || 0);
+    body.appendChild(det); card.appendChild(body); el.appendChild(card);
+  });
+}
+
+async function apprvM(id, cid) {
+  var code = 'MBR-' + rndHex(6).toUpperCase();
+  var rc = 'REF-' + rndHex(6).toUpperCase();
+  await db('profiles').eq('id', id).update({ status: 'approved', member_code: code, referral_code: rc, approved_at: new Date().toISOString() });
+  toast('Onaylandi: ' + code);
+  if (cid === 'rec-m') loadOv(); else loadM('');
+}
+
+async function rejM(id, cid) {
+  await db('profiles').eq('id', id).update({ status: 'rejected' });
+  toast('Reddedildi');
+  if (cid === 'rec-m') loadOv(); else loadM('');
+}
+
+function onPoster(ev) {
+  var f = ev.target.files[0];
+  if (!f) return;
+  compress(f, function(b64, kb) {
+    window._posterB64 = b64;
+    var prev = document.getElementById('poster-prev');
+    var img = document.getElementById('poster-img');
+    var sz = document.getElementById('poster-size');
+    var zone = document.getElementById('poster-zone');
+    if (prev) prev.style.display = 'block';
+    if (img) img.src = b64;
+    if (sz) sz.textContent = kb + ' KB';
+    if (zone) zone.style.display = 'none';
+    toast('Afis hazir: ' + kb + ' KB');
+  });
+}
+
+function rmPoster() {
+  window._posterB64 = null;
+  var prev = document.getElementById('poster-prev');
+  var zone = document.getElementById('poster-zone');
+  if (prev) prev.style.display = 'none';
+  if (zone) zone.style.display = 'block';
+}
+
+function compress(file, cb) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var maxW = 800, maxH = 1000, w = img.width, h = img.height;
+      if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+      if (h > maxH) { w = Math.round(w * maxH / h); h = maxH; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      // Try quality 0.75, check size, lower if needed
+      var b64 = canvas.toDataURL('image/jpeg', 0.75);
+      var kb = Math.round(b64.length * 0.75 / 1024);
+      if (kb > 300) b64 = canvas.toDataURL('image/jpeg', 0.55);
+      if (kb > 500) b64 = canvas.toDataURL('image/jpeg', 0.4);
+      kb = Math.round(b64.length * 0.75 / 1024);
+      cb(b64, kb);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function addEvt() {
+  var nm = document.getElementById('ne-name').value.trim().toUpperCase();
+  var dt = document.getElementById('ne-date').value;
+  var cp = parseInt(document.getElementById('ne-cap').value);
+  if (!nm || !dt || !cp) { toast('Zorunlu: ad, tarih, kapasite'); return; }
+  var btn = document.getElementById('add-btn');
+  btn.disabled = true; btn.textContent = '...';
+  var body = {
+    name: nm,
+    genre: document.getElementById('ne-genre').value.trim(),
+    subtitle: document.getElementById('ne-sub').value.trim(),
+    date: dt,
+    time: document.getElementById('ne-time').value,
+    time_end: document.getElementById('ne-tend').value || null,
+    capacity: cp,
+    approved_count: 0,
+    poster_thumb: window._posterB64 || null,
+    status: 'active',
+    access_type: document.getElementById('ne-acc').value,
+    category: document.getElementById('ne-cat').value,
+    min_tier: 'bronze', min_trust: 0
+  };
+  if (venue) body.venue_id = venue.id;
+  var r = await db('events').insert(body);
+  btn.disabled = false; btn.textContent = 'ETKINLIK OLUSTUR';
+  if (r.error) { toast('Hata: ' + r.error.message); return; }
+  ['ne-name', 'ne-genre', 'ne-sub', 'ne-date', 'ne-rules'].forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
+  toast(nm + ' olusturuldu!');
+  resetForm();
+  loadEvts();
+}
+
+async function loadEvts() {
+  var el = document.getElementById('ev-list');
+  el.innerHTML = '<div class="spin"></div>';
+  var q = db('events').select('id,name,genre,date,time,capacity,approved_count,status').order('date', { ascending: false });
+  if (venue) q = q.eq('venue_id', venue.id);
+  var r = await q;
+  var data = r.data || [];
+  if (!data.length) { el.innerHTML = '<div class="empty">Etkinlik yok. Yukaridan ekle.</div>'; return; }
+  el.innerHTML = '';
+  var today = new Date().toISOString().split('T')[0];
+  data.forEach(function(e) {
+    var past = e.date < today;
+    var card = document.createElement('div'); card.className = 'card';
+    if (past) card.style.opacity = '.4';
+    var hdr = document.createElement('div'); hdr.className = 'ch';
+    hdr.onclick = function() { this.nextElementSibling.classList.toggle('op'); };
+    var nd = document.createElement('div'); nd.style.flex = '1';
+    var nm2 = document.createElement('div'); nm2.className = 'cn'; nm2.textContent = e.name + (past ? ' (gecti)' : '');
+    var mt = document.createElement('div'); mt.className = 'cm'; mt.textContent = fmtDate(e.date) + (e.time ? ' · ' + e.time : '') + ' | ' + (e.approved_count || 0) + '/' + e.capacity;
+    nd.appendChild(nm2); nd.appendChild(mt); hdr.appendChild(nd); card.appendChild(hdr);
+    var body = document.createElement('div'); body.className = 'cb';
+    var eBtn = document.createElement('button'); eBtn.className = 'act ap'; eBtn.textContent = 'DUZENLE';
+    (function(ev2) { eBtn.onclick = function() { editEvt(ev2); }; })(e);
+    var pBtn = document.createElement('button'); pBtn.className = 'act fr'; pBtn.textContent = 'AFIS DEGISTIR';
+    (function(id) { pBtn.onclick = function() { updatePoster(id); }; })(e.id);
+    var dBtn = document.createElement('button'); dBtn.className = 'act rj'; dBtn.textContent = 'SIL';
+    (function(id, name) { dBtn.onclick = function() { if (confirm(name + ' silinsin mi?')) delEvt(id); }; })(e.id, e.name);
+    body.appendChild(eBtn); body.appendChild(pBtn); body.appendChild(dBtn); card.appendChild(body); el.appendChild(card);
+  });
+}
+
+function editEvt(e) {
+  // Fill form with event data
+  document.getElementById('ne-name').value = e.name || '';
+  document.getElementById('ne-genre').value = e.genre || '';
+  document.getElementById('ne-sub').value = e.subtitle || '';
+  document.getElementById('ne-date').value = e.date || '';
+  document.getElementById('ne-time').value = e.time || '22:00';
+  document.getElementById('ne-tend').value = e.time_end || '04:00';
+  document.getElementById('ne-cap').value = e.capacity || 100;
+  document.getElementById('ne-cat').value = e.category || 'electronic';
+  document.getElementById('ne-acc').value = e.access_type || 'open';
+  if (e.poster_thumb) {
+    window._posterB64 = e.poster_thumb;
+    var prev = document.getElementById('poster-prev');
+    var img = document.getElementById('poster-img');
+    var zone = document.getElementById('poster-zone');
+    if (prev) prev.style.display = 'block';
+    if (img) img.src = e.poster_thumb;
+    if (zone) zone.style.display = 'none';
+  }
+  // Change button to UPDATE mode
+  var btn = document.getElementById('add-btn');
+  btn.textContent = 'GUNCELLE';
+  btn.style.background = '#C9A84C';
+  btn.style.color = '#060606';
+  btn.onclick = function() { updateEvt(e.id); };
+  // Scroll to top of form
+  var pan = document.getElementById('pan-ev');
+  if (pan) pan.scrollTop = 0;
+  document.querySelector('.pan.on') && document.querySelector('.pan.on').scrollTo(0, 0);
+  window.scrollTo(0, 0);
+  toast('Duzenleme modu - degistirip GUNCELLE butonuna basin');
+}
+
+async function updateEvt(id) {
+  var nm = document.getElementById('ne-name').value.trim().toUpperCase();
+  var dt = document.getElementById('ne-date').value;
+  var cp = parseInt(document.getElementById('ne-cap').value);
+  if (!nm || !dt || !cp) { toast('Zorunlu: ad, tarih, kapasite'); return; }
+  var btn = document.getElementById('add-btn');
+  btn.disabled = true; btn.textContent = '...';
+  var body = {
+    name: nm,
+    genre: document.getElementById('ne-genre').value.trim(),
+    subtitle: document.getElementById('ne-sub').value.trim(),
+    date: dt,
+    time: document.getElementById('ne-time').value,
+    time_end: document.getElementById('ne-tend').value || null,
+    capacity: cp,
+    access_type: document.getElementById('ne-acc').value,
+    category: document.getElementById('ne-cat').value
+  };
+  if (window._posterB64) body.poster_thumb = window._posterB64;
+  var r = await db('events').eq('id', id).update(body);
+  btn.disabled = false;
+  resetForm();
+  if (r.error) { toast('Hata: ' + r.error.message); return; }
+  toast(nm + ' guncellendi!');
+  loadEvts();
+}
+
+function updatePoster(id) {
+  var inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = function(e) {
+    var f = e.target.files[0]; if (!f) return;
+    compress(f, function(b64, kb) {
+      db('events').eq('id', id).update({ poster_thumb: b64 }).then(function() {
+        toast('Afis guncellendi: ' + kb + ' KB');
+        loadEvts();
+      });
+    });
+  };
+  inp.click();
+}
+
+function resetForm() {
+  ['ne-name','ne-genre','ne-sub','ne-date','ne-rules'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+  var nc = document.getElementById('ne-cap'); if (nc) nc.value = '100';
+  var nt = document.getElementById('ne-time'); if (nt) nt.value = '22:00';
+  var te = document.getElementById('ne-tend'); if (te) te.value = '04:00';
+  rmPoster();
+  var btn = document.getElementById('add-btn');
+  btn.textContent = 'ETKINLIK OLUSTUR';
+  btn.style.background = '#F0EDE8';
+  btn.style.color = '#060606';
+  btn.onclick = addEvt;
+}
+
+async function delEvt(id) {
+  await db('events').eq('id', id).delete();
+  toast('Silindi');
+  loadEvts();
+}
+
+async function loadResFilter() {
+  var q = db('events').select('id,name,date').order('date', { ascending: false }).limit(20);
+  if (venue) q = q.eq('venue_id', venue.id);
+  var r = await q;
+  var fe = document.getElementById('filt-ev');
+  fe.innerHTML = '<option value="">Tum Etkinlikler</option>';
+  (r.data || []).forEach(function(e) { fe.innerHTML += '<option value="' + e.id + '">' + e.name + ' — ' + fmtDate(e.date) + '</option>'; });
+}
+
+async function loadRes() {
+  var el = document.getElementById('r-list');
+  el.innerHTML = '<div class="spin"></div>';
+  var filt = document.getElementById('filt-ev') ? document.getElementById('filt-ev').value : '';
+  var q = db('reservations').select('id,name,phone,event_name,event_date,status,guest_count,qr_id,table_name').order('created_at', { ascending: false });
+  if (venue) q = q.eq('venue_id', venue.id);
+  if (filt) q = q.eq('event_id', filt);
+  if (window._rf) q = q.eq('status', window._rf);
+  var r = await q;
+  renderRCards(r.data || [], 'r-list');
+}
+
+function renderRCards(list, cid) {
+  var el = document.getElementById(cid);
+  if (!list.length) { el.innerHTML = '<div class="empty">Kayit yok.</div>'; return; }
+  el.innerHTML = '';
+  list.forEach(function(r) {
+    var bc = { pending: 'bp', approved: 'ba', rejected: 'br', used: 'bu' }[r.status] || 'bu';
+    var bt = { pending: 'BEKLEMEDE', approved: 'ONAYLANDI', rejected: 'REDDEDILDI', used: 'KULLANILDI' }[r.status] || r.status;
+    var card = document.createElement('div'); card.className = 'card';
+    var hdr = document.createElement('div'); hdr.className = 'ch';
+    hdr.onclick = function() { this.nextElementSibling.classList.toggle('op'); };
+    var nd = document.createElement('div'); nd.style.flex = '1';
+    var nm = document.createElement('div'); nm.className = 'cn'; nm.textContent = r.name || '--';
+    var mt = document.createElement('div'); mt.className = 'cm';
+    mt.textContent = (r.event_name || '--') + ' · ' + (r.guest_count || 1) + ' kisi' + (r.table_name ? ' · ' + r.table_name : '');
+    var bg = document.createElement('span'); bg.className = 'badge ' + bc; bg.textContent = bt;
+    nd.appendChild(nm); nd.appendChild(mt); hdr.appendChild(nd); hdr.appendChild(bg); card.appendChild(hdr);
+    var body = document.createElement('div'); body.className = 'cb';
+    if (r.status === 'pending') {
+      var b1 = document.createElement('button'); b1.className = 'act ap'; b1.textContent = 'ONAYLA';
+      (function(id, evId, cnt) { b1.onclick = function() { apprvR(id, evId, cnt, cid); }; })(r.id, r.event_id, r.guest_count || 1);
+      var b2 = document.createElement('button'); b2.className = 'act rj'; b2.textContent = 'REDDET';
+      (function(id) { b2.onclick = function() { rejR(id, cid); }; })(r.id);
+      body.appendChild(b1); body.appendChild(b2);
+    }
+    if (r.status === 'approved' && r.phone) {
+      var wa = document.createElement('button');
+      wa.className = 'act ap'; wa.style.cssText = 'background:rgba(37,211,102,.08);color:#25d366;border-color:rgba(37,211,102,.2)';
+      wa.textContent = 'WhatsApp';
+      (function(rv) { wa.onclick = function() { sendWA(rv); }; })(r);
+      body.appendChild(wa);
+    }
+    var det = document.createElement('div');
+    det.style.cssText = 'font-family:Space Mono,monospace;font-size:8px;color:#666;line-height:2;padding:8px 0;border-top:1px solid #1C1C1C';
+    det.textContent = 'Tel: ' + (r.phone || '--') + ' | QR: ' + (r.qr_id || '--') + ' | ' + fmtDate(r.event_date || '');
+    body.appendChild(det); card.appendChild(body); el.appendChild(card);
+  });
+}
+
+async function apprvR(id, evId, cnt, cid) {
+  await db('reservations').eq('id', id).update({ status: 'approved', approved_at: new Date().toISOString() });
+  if (evId) {
+    var ev = await db('events').select('approved_count').eq('id', evId).single();
+    if (ev.data) await db('events').eq('id', evId).update({ approved_count: (ev.data.approved_count || 0) + cnt });
+  }
+  toast('Onaylandi');
+  if (cid === 'rec-r') loadOv(); else loadRes();
+}
+
+async function rejR(id, cid) {
+  await db('reservations').eq('id', id).update({ status: 'rejected' });
+  toast('Reddedildi');
+  if (cid === 'rec-r') loadOv(); else loadRes();
+}
+
+function sendWA(r) {
+  var ph = (r.phone || '').replace(/[^0-9]/g, '');
+  if (!ph) { toast('Telefon yok'); return; }
+  var msg = 'Rezervasyon Onayi%0A%0A' + encodeURIComponent(r.event_name || '') + '%0AKisi: ' + (r.guest_count || 1) + (r.table_name ? '%0AMasa: ' + encodeURIComponent(r.table_name) : '') + '%0AQR: ' + encodeURIComponent(r.qr_id || '') + '%0A%0AKapida QR gostermeniz yeterlidir.';
+  window.open('https://wa.me/' + ph + '?text=' + msg, '_blank');
+}
+
+async function scanQR() {
+  var inp = document.getElementById('qr-inp').value.trim().toUpperCase();
+  var res = document.getElementById('qr-res');
+  if (!inp) { toast('QR kodu girin'); return; }
+  res.style.display = 'block';
+  res.style.cssText = 'display:block;border-radius:2px;padding:16px;font-family:Space Mono,monospace;font-size:10px;letter-spacing:1px;line-height:2;text-align:center;background:rgba(100,100,100,.06);color:#666;border:1px solid #2A2A2A';
+  res.textContent = 'Sorgulanıyor...';
+  var r = await db('reservations').select('*').eq('qr_id', inp).single();
+  var rv = r.data;
+  if (!rv) { res.style.cssText = 'display:block;border-radius:2px;padding:16px;font-family:Space Mono,monospace;font-size:20px;font-weight:900;letter-spacing:3px;text-align:center;background:rgba(192,57,43,.06);color:#C0392B;border:1px solid rgba(192,57,43,.15)'; res.textContent = 'GECERSIZ'; return; }
+  if (rv.status === 'used') { res.style.cssText = 'display:block;border-radius:2px;padding:16px;font-family:Space Mono,monospace;font-size:20px;font-weight:900;letter-spacing:3px;text-align:center;background:rgba(100,100,100,.06);color:#666;border:1px solid #2A2A2A'; res.textContent = 'KULLANILMIS'; return; }
+  if (rv.status !== 'approved') { res.style.cssText = 'display:block;border-radius:2px;padding:16px;font-family:Space Mono,monospace;font-size:20px;font-weight:900;letter-spacing:3px;text-align:center;background:rgba(192,57,43,.06);color:#C0392B;border:1px solid rgba(192,57,43,.15)'; res.textContent = 'ONAYSIZ: ' + rv.status; return; }
+  await db('reservations').eq('id', rv.id).update({ status: 'used', checked_in_at: new Date().toISOString() });
+  res.style.cssText = 'display:block;border-radius:2px;padding:16px;font-family:Space Mono,monospace;font-size:10px;letter-spacing:1px;line-height:2;text-align:center;background:rgba(61,155,90,.06);color:#3D9B5A;border:1px solid rgba(61,155,90,.2)';
+  res.innerHTML = '<div style="font-size:24px;font-weight:900;letter-spacing:4px;margin-bottom:8px">GIRIS OK</div>' + rv.name + '<br>' + (rv.event_name || '') + ' · ' + (rv.guest_count || 1) + ' kisi' + (rv.table_name ? '<br>Masa: ' + rv.table_name : '');
+  document.getElementById('qr-inp').value = '';
+}
+
+function onLogo(ev) {
+  var f = ev.target.files[0]; if (!f) return;
+  compress(f, function(b64, kb) {
+    window._logob64 = b64;
+    document.getElementById('logo-prev').style.display = 'block';
+    document.getElementById('logo-img').src = b64;
+    document.getElementById('logo-zone').style.display = 'none';
+    toast('Logo hazir: ' + kb + ' KB');
+  });
+}
+
+function rmLogo() {
+  window._logob64 = null;
+  document.getElementById('logo-prev').style.display = 'none';
+  document.getElementById('logo-zone').style.display = 'block';
+}
+
+function loadBrandForm() {
+  if (!venue) return;
+  var fields = { 'br-name': 'name', 'br-tag': 'tagline', 'br-city': 'city', 'br-ig': 'instagram', 'br-wa': 'whatsapp' };
+  Object.keys(fields).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = venue[fields[id]] || '';
+  });
+  var ac = document.getElementById('br-accent'); if (ac) ac.value = venue.accent_color || '#C9A84C';
+  var bg = document.getElementById('br-bg'); if (bg) bg.value = venue.bg_color || '#060606';
+  if (venue.logo_b64) {
+    window._logob64 = venue.logo_b64;
+    document.getElementById('logo-prev').style.display = 'block';
+    document.getElementById('logo-img').src = venue.logo_b64;
+    document.getElementById('logo-zone').style.display = 'none';
+  }
+  var ub = document.getElementById('venue-url');
+  if (ub) ub.textContent = location.origin + location.pathname.replace('admin.html','') + '?v=' + venue.slug;
+  var tablesOn = venue.settings && venue.settings.tables_enabled;
+  var mb = document.getElementById('masa-toggle');
+  var mp = document.getElementById('masa-pan');
+  if (mb) { mb.textContent = tablesOn ? 'ACIK' : 'KAPALI'; mb.style.color = tablesOn ? '#3D9B5A' : '#666'; }
+  if (mp) mp.style.display = tablesOn ? 'block' : 'none';
+  var tData = venue.settings && (venue.settings.tables_data || venue.settings.tables) || [];
+  renderTablesAdmin(tData);
+}
+
+async function saveBrand() {
+  if (!venue) return;
+  var up = {
+    name: document.getElementById('br-name').value.trim(),
+    tagline: document.getElementById('br-tag').value.trim(),
+    city: document.getElementById('br-city').value.trim(),
+    instagram: document.getElementById('br-ig').value.trim(),
+    whatsapp: document.getElementById('br-wa').value.trim(),
+    accent_color: document.getElementById('br-accent').value,
+    bg_color: document.getElementById('br-bg').value
+  };
+  if (window._logob64) up.logo_b64 = window._logob64;
+  var r = await db('venues').eq('id', venue.id).update(up);
+  if (r.error) { toast('Hata: ' + r.error.message); return; }
+  Object.assign(venue, up);
+  var nb = document.getElementById('adm-brand'); if (nb) nb.textContent = venue.name;
+  toast('Marka ayarlari kaydedildi');
+}
+
+function copyUrl() {
+  if (!venue) return;
+  var url = location.origin + location.pathname.replace('admin.html','') + '?v=' + venue.slug;
+  if (navigator.clipboard) { navigator.clipboard.writeText(url).then(function() { toast('URL kopyalandi'); }); }
+  else toast(url);
+}
+
+function toggleTables() {
+  if (!venue) return;
+  if (!venue.settings) venue.settings = {};
+  venue.settings.tables_enabled = !venue.settings.tables_enabled;
+  var mb = document.getElementById('masa-toggle');
+  var mp = document.getElementById('masa-pan');
+  var on = venue.settings.tables_enabled;
+  if (mb) { mb.textContent = on ? 'ACIK' : 'KAPALI'; mb.style.color = on ? '#3D9B5A' : '#666'; }
+  if (mp) mp.style.display = on ? 'block' : 'none';
+  saveTables();
+}
+
+function addTable() {
+  var inp = document.getElementById('masa-inp'); if (!inp) return;
+  var nm = inp.value.trim(); if (!nm) { toast('Masa adi bos olamaz'); return; }
+  var cap = parseInt(document.getElementById('masa-cap').value) || 0;
+  var min = parseInt(document.getElementById('masa-min').value) || 0;
+  var zone = document.getElementById('masa-zone').value || '';
+  if (!venue.settings) venue.settings = {};
+  if (!venue.settings.tables_data) venue.settings.tables_data = [];
+  if (!venue.settings.tables) venue.settings.tables = [];
+  var exists = venue.settings.tables_data.find(function(t){ return t.name === nm; });
+  if (exists) { toast('Bu isimde masa zaten var'); return; }
+  var tableObj = { name: nm, capacity: cap, min_spend: min, zone: zone, status: 'active' };
+  venue.settings.tables_data.push(tableObj);
+  venue.settings.tables = venue.settings.tables_data.map(function(t){ return t.name; });
+  inp.value = '';
+  document.getElementById('masa-cap').value = '';
+  document.getElementById('masa-min').value = '';
+  document.getElementById('masa-zone').value = '';
+  renderTablesAdmin(venue.settings.tables_data);
+  saveTables();
+  toast(nm + ' eklendi');
+}
+
+function removeTable(nm) {
+  if (!venue || !venue.settings) return;
+  if (venue.settings.tables_data) {
+    venue.settings.tables_data = venue.settings.tables_data.filter(function(t){ return t.name !== nm; });
+    venue.settings.tables = venue.settings.tables_data.map(function(t){ return t.name; });
+    renderTablesAdmin(venue.settings.tables_data);
+  } else if (venue.settings.tables) {
+    venue.settings.tables = venue.settings.tables.filter(function(t){ return t !== nm; });
+    renderTablesAdmin(venue.settings.tables);
+  }
+  saveTables();
+}
+
+function renderTablesAdmin(tables) {
+  var el = document.getElementById('masa-list'); if (!el) return;
+  if (!tables || !tables.length) {
+    el.innerHTML = '<div style="font-family:Space Mono,monospace;font-size:8px;color:#444;letter-spacing:1px;padding:12px 0;text-align:center">Henuz masa eklenmedi</div>';
+    return;
+  }
+  el.innerHTML = '';
+  var zoneLabels = { ic:'İc Alan', dis:'Dis Alan', teras:'Teras', vip:'VIP', bar:'Bar Onü', sahne:'Sahne Onü' };
+  tables.forEach(function(t) {
+    var nm = typeof t === 'string' ? t : t.name;
+    var cap = typeof t === 'object' ? t.capacity : 0;
+    var minS = typeof t === 'object' ? t.min_spend : 0;
+    var zone = typeof t === 'object' ? t.zone : '';
+    var card = document.createElement('div');
+    card.style.cssText = 'background:#0a0a0a;border:1px solid #1C1C1C;border-radius:2px;margin-bottom:6px;overflow:hidden';
+    var top = document.createElement('div');
+    top.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 12px';
+    var info = document.createElement('div');
+    info.style.flex = '1';
+    var nameEl = document.createElement('div');
+    nameEl.style.cssText = 'font-family:Space Mono,monospace;font-size:13px;font-weight:700;color:#F0EDE8;letter-spacing:1px';
+    nameEl.textContent = nm;
+    var meta = document.createElement('div');
+    meta.style.cssText = 'font-family:Space Mono,monospace;font-size:7px;color:#666;letter-spacing:1px;margin-top:3px';
+    var metaParts = [];
+    if (cap) metaParts.push(cap + ' kisi');
+    if (minS) metaParts.push('min ₺'+minS);
+    if (zone && zoneLabels[zone]) metaParts.push(zoneLabels[zone]);
+    meta.textContent = metaParts.join(' · ') || 'Detay girilmedi';
+    info.appendChild(nameEl); info.appendChild(meta);
+    var delBtn = document.createElement('button');
+    delBtn.style.cssText = 'background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.2);color:#C0392B;border-radius:2px;padding:6px 10px;font-size:12px;cursor:pointer;-webkit-appearance:none';
+    delBtn.textContent = 'SİL';
+    (function(tn){ delBtn.onclick = function(){ if(confirm(tn+' silinsin mi?')) removeTable(tn); }; })(nm);
+    top.appendChild(info); top.appendChild(delBtn);
+    card.appendChild(top);
+    el.appendChild(card);
+  });
+  // Summary
+  var sum = document.createElement('div');
+  sum.style.cssText = 'font-family:Space Mono,monospace;font-size:8px;color:#3D9B5A;letter-spacing:1px;padding:8px 0;text-align:center';
+  var totalCap = tables.reduce(function(acc,t){ return acc+(typeof t==='object'?t.capacity||0:0); },0);
+  sum.textContent = tables.length + ' masa' + (totalCap?' · toplam '+totalCap+' kisi':'');
+  el.appendChild(sum);
+}
+
+async function saveTables() {
+  if (!venue) return;
+  await db('venues').eq('id', venue.id).update({ settings: venue.settings || {} });
+}
+
+function toast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(function() { t.classList.remove('on'); }, 2800); }
+function fmtDate(s) { if (!s) return ''; try { return new Date(s + 'T12:00:00').toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }); } catch(e) { return s; } }
+function rndHex(n) { var r = ''; for (var i = 0; i < n; i++) r += '0123456789abcdef'[Math.floor(Math.random() * 16)]; return r; }
+
+// Load venue name on login screen
+loadVenue();
+</script>
+
+</body>
+</html>
