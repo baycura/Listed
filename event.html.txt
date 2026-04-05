@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>LISTED — Event</title>
+<meta name="theme-color" content="#060606">
+<meta property="og:type" content="website">
+<meta property="og:title" id="og-title" content="LISTED">
+<meta property="og:description" id="og-desc" content="">
+<meta property="og:image" id="og-img" content="">
+<meta property="og:url" id="og-url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{background:#060606;color:#F0EDE8;font-family:'DM Sans',sans-serif}
+.nav{background:rgba(6,6,6,.97);border-bottom:1px solid #1C1C1C;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:50}
+.btn{display:block;width:100%;border:none;border-radius:2px;padding:14px;font-family:'Space Mono',monospace;font-weight:700;font-size:13px;letter-spacing:2px;cursor:pointer;-webkit-appearance:none;text-align:center}
+.btn:active{opacity:.65;transform:scale(.97)}
+.spin{width:22px;height:22px;border:2px solid rgba(255,255,255,.1);border-top-color:#F0EDE8;border-radius:50%;animation:spin .7s linear infinite;margin:60px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#F0EDE8;color:#060606;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:10px 20px;border-radius:2px;z-index:9999;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1}
+button:active{opacity:.65!important;transform:scale(.96)!important}
+</style>
+</head>
+<body>
+<div class="nav">
+  <a href="javascript:history.back()" style="font-family:Space Mono,monospace;font-size:12px;color:#666;text-decoration:none;padding:4px">&#8249;</a>
+  <span style="font-family:'Space Mono',monospace;font-weight:900;font-size:14px;letter-spacing:4px">LISTED</span>
+  <div style="flex:1"></div>
+  <button id="share-btn" onclick="shareThis()" style="background:none;border:1px solid #2A2A2A;color:#666;border-radius:2px;padding:6px 12px;font-family:Space Mono,monospace;font-size:8px;cursor:pointer;letter-spacing:1px;-webkit-appearance:none">PAYLAŞ</button>
+</div>
+<div id="content"><div class="spin"></div></div>
+<div class="toast" id="toast-el"></div>
+
+<script>
+var SB  = 'https://ilybetbphzzgotruiegm.supabase.co';
+var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlseWJldGJwaHp6Z290cnVpZWdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDQ5OTEsImV4cCI6MjA5MDcyMDk5MX0.REb1XLJdDMxS_TrJgUoVpFI8qe8XZB7fqBxIfX3AYSg';
+var evId = new URLSearchParams(location.search).get('id');
+var _ev = null, _venue = null;
+
+function ge(id){ return document.getElementById(id); }
+function esc(s){ if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toast(m){ var t=ge('toast-el'); t.textContent=m; t.classList.add('on'); clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('on');},2800); }
+function fmtDate(s){ if(!s)return''; try{var d=new Date(s+'T12:00:00'); return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()]+' '+d.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getFullYear();}catch(e){return s;} }
+
+function shareThis(){
+  if(!_ev) return;
+  var url = location.href;
+  var text = (_ev.name||'')+' @ '+(_venue?_venue.name:'LISTED')+((_ev.date)?' — '+fmtDate(_ev.date):'');
+  if(navigator.share){ navigator.share({title:_ev.name,text:text,url:url}).catch(function(){}); }
+  else if(navigator.clipboard){ navigator.clipboard.writeText(url).then(function(){toast('Link copied!');});}
+  else toast(url);
+}
+
+async function load(){
+  if(!evId){ ge('content').innerHTML='<div style="text-align:center;padding:60px;font-family:Space Mono,monospace;font-size:9px;color:#444">Event not found</div>'; return; }
+  var r = await fetch(SB+'/rest/v1/events?id=eq.'+evId+'&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}}).then(function(r){return r.json();}).catch(function(){return[];});
+  if(!r.length){ ge('content').innerHTML='<div style="text-align:center;padding:60px;font-family:Space Mono,monospace;font-size:9px;color:#444">Event not found</div>'; return; }
+  _ev = r[0];
+  // Load venue
+  if(_ev.venue_id){
+    var vr = await fetch(SB+'/rest/v1/venues?id=eq.'+_ev.venue_id+'&select=id,name,slug,city,address,accent_color,logo_b64&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}}).then(function(r){return r.json();}).catch(function(){return[];});
+    if(vr.length) _venue=vr[0];
+  }
+  var color = _ev.color || (_venue&&_venue.accent_color) || '#888';
+  // Update OG
+  document.title = _ev.name+' — LISTED';
+  var metas = {title:_ev.name+(_venue?' @ '+_venue.name:''),desc:(fmtDate(_ev.date)||'')+(_ev.time?' · '+_ev.time:'')+' · '+(_ev.genre||''),img:_ev.poster_thumb||'',url:location.href};
+  ['og-title','tw-title'].forEach(function(id){var e=ge(id);if(e)e.setAttribute('content',metas.title);});
+  ['og-desc'].forEach(function(id){var e=ge(id);if(e)e.setAttribute('content',metas.desc);});
+  ['og-img','tw-image'].forEach(function(id){var e=ge(id);if(e)e.setAttribute('content',metas.img);});
+  ['og-url'].forEach(function(id){var e=ge(id);if(e)e.setAttribute('content',metas.url);});
+
+  var venueSlug = _venue?_venue.slug:'';
+  var html = '';
+  if(_ev.poster_thumb) html+='<img src="'+esc(_ev.poster_thumb)+'" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-bottom:3px solid '+color+'">';
+  html+='<div style="padding:20px 16px 0;border-left:3px solid '+color+'">';
+  html+='<div style="font-family:Space Mono,monospace;font-size:8px;color:#555;letter-spacing:2px;margin-bottom:8px">'+esc(fmtDate(_ev.date))+((_ev.time)?(' · '+esc(_ev.time)):'')+((_ev.time_end)?(' — '+esc(_ev.time_end)):'')+'</div>';
+  html+='<div style="font-family:Space Mono,monospace;font-weight:900;font-size:28px;letter-spacing:2px;line-height:1;margin-bottom:8px">'+esc(_ev.name)+'</div>';
+  if(_ev.subtitle)html+='<div style="font-size:16px;color:#666;font-style:italic;margin-bottom:12px">"'+esc(_ev.subtitle)+'"</div>';
+  if(_ev.genre)html+='<div style="font-family:Space Mono,monospace;font-size:8px;color:#555;letter-spacing:2px;margin-bottom:16px">'+esc(_ev.genre)+'</div>';
+  if(_venue){
+    html+='<div style="display:flex;align-items:center;gap:10px;background:#111;border:1px solid #1C1C1C;border-radius:2px;padding:12px 14px;margin-bottom:16px">';
+    if(_venue.logo_b64)html+='<img src="'+_venue.logo_b64+'" style="width:36px;height:36px;border-radius:2px;object-fit:contain">';
+    html+='<div><div style="font-family:Space Mono,monospace;font-size:12px;font-weight:700;letter-spacing:2px">'+esc(_venue.name)+'</div>';
+    var loc=[]; if(_venue.city)loc.push(_venue.city); if(_venue.address)loc.push(_venue.address);
+    if(loc.length)html+='<div style="font-family:Space Mono,monospace;font-size:7px;color:#555;margin-top:3px">'+esc(loc.join(' · '))+'</div>';
+    html+='</div></div>';
+  }
+  if(!_ev.is_free&&_ev.ticket_price){
+    html+='<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:12px 14px;margin-bottom:16px">';
+    html+='<span style="font-family:Space Mono,monospace;font-size:10px;font-weight:700;color:#C9A84C">GİRİŞ ÜCRETİ</span>';
+    html+='<span style="font-family:Space Mono,monospace;font-size:22px;font-weight:900;color:#C9A84C">'+_ev.ticket_price+'₺</span></div>';
+  }
+  if(_ev.rules){
+    html+='<div style="background:#060f14;border:1px solid #0d2035;border-left:3px solid #2E6DA4;border-radius:2px;padding:14px;margin-bottom:16px">';
+    html+='<div style="font-family:Space Mono,monospace;font-size:8px;color:#6899bb;letter-spacing:2px;margin-bottom:8px">RULES</div>';
+    html+='<div style="font-family:Space Mono,monospace;font-size:9px;color:#5a88aa;line-height:2;white-space:pre-line">'+esc(_ev.rules)+'</div></div>';
+  }
+  html+='</div>';
+  html+='<div style="padding:16px">';
+  html+='<a href="'+(venueSlug?'index.html?v='+venueSlug:'index.html')+(venueSlug?'#ev-'+_ev.id:'#ev-'+_ev.id)+'" style="display:block;width:100%;background:'+color+';color:#060606;border:none;border-radius:2px;padding:15px;font-family:Space Mono,monospace;font-weight:700;font-size:13px;letter-spacing:2px;text-align:center;text-decoration:none;margin-bottom:8px" onclick="localStorage.setItem(\'lst_open_ev\',\''+_ev.id+'\')">REZERVASYON YAP</a>';
+  html+='<a href="'+(venueSlug?'index.html?v='+venueSlug:'index.html')+'" style="display:block;width:100%;background:none;border:1px solid #2A2A2A;color:#666;border-radius:2px;padding:12px;font-family:Space Mono,monospace;font-size:10px;letter-spacing:2px;text-align:center;text-decoration:none">← LISTEYE DÖN</a>';
+  html+='</div>';
+  ge('content').innerHTML=html;
+}
+
+load();
+</script>
+
+</body>
+</html>

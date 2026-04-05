@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>LISTED — Fethiye</title>
+<meta name="theme-color" content="#060606">
+<meta name="description" content="Events, nightlife and venues in Fethiye. Reserve your spot tonight.">
+<meta property="og:type" content="website">
+<meta property="og:title" id="og-title" content="LISTED — Fethiye">
+<meta property="og:description" id="og-desc" content="Events, nightlife and venues in Fethiye.">
+<meta property="og:image" id="og-image" content="">
+<meta property="og:url" id="og-url" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" id="tw-title" content="LISTED — Fethiye">
+<meta name="twitter:description" id="tw-desc" content="Events, nightlife and venues in Fethiye.">
+<meta name="twitter:image" id="tw-image" content="">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LISTED">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;background:#060606;color:#F0EDE8;font-family:'DM Sans',sans-serif;min-height:100%}
+input,select,textarea{background:#111!important;color:#F0EDE8!important;-webkit-text-fill-color:#F0EDE8!important;-webkit-appearance:none;border:1px solid #2A2A2A!important;border-radius:2px}
+input::placeholder,textarea::placeholder{color:#444!important;-webkit-text-fill-color:#444!important}
+input:-webkit-autofill{-webkit-box-shadow:0 0 0 1000px #111 inset!important;-webkit-text-fill-color:#F0EDE8!important}
+
+/* NAV */
+.nav{background:rgba(6,6,6,.97);border-bottom:1px solid #1C1C1C;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:50}
+.nav-wordmark{font-family:‘Space Mono’,monospace;font-weight:900;font-size:15px;letter-spacing:5px;color:#F0EDE8;text-decoration:none}
+.lang-btn{font-family:‘Space Mono’,monospace;font-size:7px;color:#666;background:none;border:1px solid #1C1C1C;padding:5px 8px;border-radius:2px;cursor:pointer;letter-spacing:1px;-webkit-appearance:none;transition:all .15s}
+.lang-btn.on{color:#F0EDE8;border-color:#2A2A2A}
+.lang-btn:active{opacity:.5;transform:scale(.92)}
+.nb{font-family:‘Space Mono’,monospace;font-size:8px;color:#666;background:none;border:1px solid #2A2A2A;padding:6px 12px;border-radius:2px;cursor:pointer;letter-spacing:1px;-webkit-appearance:none}
+.nb:active{opacity:.5;transform:scale(.93)}
+
+/* HERO */
+.hero{padding:28px 16px 20px;border-bottom:1px solid #111}
+.hero-city{font-family:‘Space Mono’,monospace;font-size:8px;color:#444;letter-spacing:4px;margin-bottom:8px}
+.hero-title{font-family:‘Space Mono’,monospace;font-weight:900;font-size:26px;letter-spacing:2px;line-height:1.1;margin-bottom:6px}
+.hero-sub{font-family:‘Space Mono’,monospace;font-size:8px;color:#666;letter-spacing:1px;margin-bottom:20px;line-height:1.8}
+.hero-count{display:inline-block;background:rgba(61,155,90,.1);border:1px solid rgba(61,155,90,.25);border-radius:2px;padding:6px 12px;font-family:‘Space Mono’,monospace;font-size:8px;color:#3D9B5A;letter-spacing:2px;margin-bottom:16px}
+.hero-count.empty{background:rgba(100,100,100,.06);border-color:#1C1C1C;color:#444}
+
+/* TIME FILTERS */
+.time-filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:16px}
+.time-filters::-webkit-scrollbar{display:none}
+.tf{font-family:‘Space Mono’,monospace;font-size:8px;padding:8px 14px;border-radius:2px;cursor:pointer;border:1px solid #2A2A2A;color:#666;background:none;letter-spacing:1.5px;white-space:nowrap;flex-shrink:0;-webkit-appearance:none;transition:all .15s}
+.tf.on{color:#060606;border-color:#F0EDE8;background:#F0EDE8}
+.tf:active{transform:scale(.92);opacity:.7}
+
+/* CATEGORY CHIPS */
+.filter-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.fchip{font-family:‘Space Mono’,monospace;font-size:7px;padding:6px 12px;border-radius:2px;cursor:pointer;border:1px solid #1C1C1C;color:#444;background:none;letter-spacing:1.5px;white-space:nowrap;flex-shrink:0;-webkit-appearance:none;transition:all .15s}
+.fchip.on{color:#F0EDE8;border-color:#2A2A2A;background:#111}
+.fchip:active{transform:scale(.92);opacity:.7}
+
+/* SECTION HEADER */
+.sec-hd{display:flex;align-items:center;justify-content:space-between;padding:18px 16px 10px}
+.sec-ttl{font-family:‘Space Mono’,monospace;font-weight:700;font-size:10px;letter-spacing:3px;color:#444}
+.sec-ct{font-family:‘Space Mono’,monospace;font-size:8px;color:#333;letter-spacing:1px}
+
+/* EVENT CARDS */
+.ec{display:flex;align-items:stretch;border-bottom:1px solid #0d0d0d;cursor:pointer;min-height:96px;transition:background .12s}
+.ec:active{background:#0a0a0a}
+.ec-accent{width:3px;flex-shrink:0}
+.ec-thumb{width:68px;flex-shrink:0;background:#0a0a0a;margin:10px 0 10px 10px;border-radius:2px;overflow:hidden;align-self:center}
+.ec-thumb img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.ec-ph{width:68px;height:88px;display:flex;align-items:center;justify-content:center;font-size:26px;color:#222;font-family:‘Space Mono’,monospace}
+.ec-body{flex:1;padding:13px 14px 13px 12px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.ec-date{font-family:‘Space Mono’,monospace;font-size:7px;letter-spacing:2px;color:#555}
+.ec-name{font-family:‘Space Mono’,monospace;font-weight:900;font-size:17px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ec-sub{font-size:11px;color:#444;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ec-venue{font-family:‘Space Mono’,monospace;font-size:7px;color:#555;letter-spacing:1px;margin-top:2px;display:flex;align-items:center;gap:3px}
+.ec-venue span{color:#444}
+.ec-foot{display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:8px}
+.ec-time{font-family:‘Space Mono’,monospace;font-size:8px;color:#444}
+.ec-res{font-family:‘Space Mono’,monospace;font-size:8px;letter-spacing:1px;color:#060606;border:none;border-radius:2px;padding:7px 14px;cursor:pointer;-webkit-appearance:none;flex-shrink:0;font-weight:700}
+.ec-res:active{opacity:.6;transform:scale(.9)}
+.ec-badge{font-family:‘Space Mono’,monospace;font-size:7px;padding:2px 7px;border-radius:2px;letter-spacing:1px;flex-shrink:0}
+.price-badge{background:rgba(201,168,76,.12);color:#C9A84C;border:1px solid rgba(201,168,76,.3)}
+.free-hidden{display:none}
+
+/* RES PANEL */
+.rp{max-height:0;overflow:hidden;transition:max-height .32s ease;background:#070707;border-bottom:1px solid #2A2A2A}
+.rp.op{max-height:1000px}
+.rp-in{padding:16px}
+.flbl{font-family:‘Space Mono’,monospace;font-size:8px;color:#555;letter-spacing:2px;margin-bottom:6px;display:block;margin-top:2px}
+.fi{width:100%;background:#111;border:1px solid #2A2A2A;border-radius:2px;padding:13px 14px;font-family:‘DM Sans’,sans-serif;font-size:16px;outline:none;color:#F0EDE8;-webkit-appearance:none;display:block;margin-bottom:12px}
+.fi:focus{border-color:#555!important}
+.ph-row{display:flex;gap:6px;margin-bottom:12px}
+.ph-cc{width:88px;flex-shrink:0;background:#111;border:1px solid #2A2A2A;border-radius:2px;padding:13px 10px;font-size:14px;color:#F0EDE8;-webkit-appearance:none;outline:none}
+.ph-nm{flex:1;background:#111;border:1px solid #2A2A2A;border-radius:2px;padding:13px 14px;font-size:16px;outline:none;color:#F0EDE8;-webkit-appearance:none}
+.ph-nm::placeholder{color:#444;-webkit-text-fill-color:#444}
+.cnt-row{display:flex;align-items:center;background:#111;border:1px solid #2A2A2A;border-radius:2px;overflow:hidden;margin-bottom:12px}
+.cnt-b{width:52px;height:52px;background:none;border:none;color:#F0EDE8;font-size:24px;cursor:pointer;-webkit-appearance:none}
+.cnt-b:active{background:#1C1C1C}
+.cnt-v{flex:1;text-align:center;font-family:‘Space Mono’,monospace;font-size:26px;font-weight:700}
+.rules-box{background:#060f14;border:1px solid #0d2035;border-left:3px solid #2E6DA4;border-radius:2px;padding:14px;margin-bottom:12px}
+.rules-txt{font-family:‘Space Mono’,monospace;font-size:8px;color:#5a88aa;line-height:2;margin-bottom:10px;white-space:pre-line}
+.rules-chk{display:flex;align-items:flex-start;gap:10px;cursor:pointer;border-top:1px solid #0d2035;padding-top:10px}
+.rules-chk input{width:18px;height:18px;accent-color:#2E6DA4;cursor:pointer;flex-shrink:0;margin-top:1px}
+.rules-chk span{font-family:‘Space Mono’,monospace;font-size:8px;color:#5a88aa;line-height:1.8}
+.btn{display:block;width:100%;background:#F0EDE8;color:#060606;border:none;border-radius:2px;padding:14px;font-family:‘Space Mono’,monospace;font-weight:700;font-size:12px;letter-spacing:2px;cursor:pointer;-webkit-appearance:none;text-align:center}
+.btn:active{opacity:.65;transform:scale(.97)}
+.btn:disabled{background:#2A2A2A;color:#666}
+.info-note{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-left:3px solid #C9A84C;border-radius:2px;padding:10px 14px;margin-bottom:12px;font-family:‘Space Mono’,monospace;font-size:8px;color:#C9A84C;line-height:1.9}
+
+/* VENUE CARDS */
+.vc{background:#0a0a0a;border:1px solid #111;border-radius:2px;margin:0 16px 8px;overflow:hidden;cursor:pointer;transition:background .12s}
+.vc:active{background:#111}
+.vc-inner{display:flex;align-items:center;gap:12px;padding:14px}
+.vc-logo{width:48px;height:48px;border-radius:2px;background:#111;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:22px}
+.vc-logo img{width:100%;height:100%;object-fit:contain}
+.vc-info{flex:1;min-width:0}
+.vc-name{font-family:‘Space Mono’,monospace;font-weight:700;font-size:13px;letter-spacing:2px;line-height:1}
+.vc-meta{font-family:‘Space Mono’,monospace;font-size:7px;color:#444;letter-spacing:1px;margin-top:4px;line-height:1.8}
+.vc-evct{display:inline-block;font-family:‘Space Mono’,monospace;font-size:7px;letter-spacing:1px;padding:2px 8px;border-radius:2px;margin-top:4px}
+.vc-evct.has{background:rgba(61,155,90,.08);color:#3D9B5A;border:1px solid rgba(61,155,90,.2)}
+.vc-evct.none{background:rgba(100,100,100,.06);color:#333;border:1px solid #111}
+.vc-go{font-family:‘Space Mono’,monospace;font-size:8px;letter-spacing:1px;color:#444;padding:8px 12px;border:1px solid #1C1C1C;border-radius:2px;background:none;cursor:pointer;white-space:nowrap;-webkit-appearance:none;flex-shrink:0;transition:all .15s}
+.vc-go:active{color:#F0EDE8;border-color:#444}
+
+/* VENUE MODE */
+.vm-header{padding:20px 16px 16px;border-bottom:1px solid #111}
+.vm-logo-wrap{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.vm-logo{width:56px;height:56px;border-radius:4px;background:#0a0a0a;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:26px}
+.vm-logo img{width:100%;height:100%;object-fit:contain}
+.vm-name{font-family:‘Space Mono’,monospace;font-weight:900;font-size:20px;letter-spacing:3px;line-height:1}
+.vm-tag{font-family:‘Space Mono’,monospace;font-size:8px;color:#555;letter-spacing:2px;margin-top:5px}
+.vm-city{font-family:‘Space Mono’,monospace;font-size:7px;color:#333;letter-spacing:1px;margin-top:3px}
+.vm-listed-link{display:block;text-align:center;font-family:‘Space Mono’,monospace;font-size:7px;color:#222;letter-spacing:3px;text-decoration:none;padding:8px;border-bottom:1px solid #0d0d0d;transition:color .15s}
+.vm-listed-link:active{color:#444}
+
+/* JOIN CTA */
+.join-cta{margin:16px 16px 8px;background:linear-gradient(135deg,#0a0a0a,#111);border:1px solid #1C1C1C;border-radius:2px;padding:24px 20px;text-align:center}
+.join-cta-ttl{font-family:‘Space Mono’,monospace;font-weight:700;font-size:12px;letter-spacing:3px;margin-bottom:8px}
+.join-cta-sub{font-family:‘Space Mono’,monospace;font-size:8px;color:#444;letter-spacing:1px;line-height:2;margin-bottom:16px}
+.join-cta-btn{display:inline-block;font-family:‘Space Mono’,monospace;font-size:10px;font-weight:700;color:#060606;background:#F0EDE8;padding:11px 22px;border-radius:2px;text-decoration:none;letter-spacing:2px;transition:opacity .15s}
+.join-cta-btn:active{opacity:.7}
+
+/* AUTH MODAL */
+.modal-bg{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.88);align-items:flex-end;justify-content:center}
+.modal-bg.on{display:flex}
+.modal-sheet{background:#060606;border:1px solid #2A2A2A;border-radius:14px 14px 0 0;width:100%;max-width:480px;padding:28px 24px;padding-bottom:max(40px,env(safe-area-inset-bottom,0px));animation:slideUp .28s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.auth-tabs{display:flex;border-bottom:1px solid #1C1C1C;margin-bottom:22px}
+.auth-tab{flex:1;padding:10px;font-family:‘Space Mono’,monospace;font-size:8px;letter-spacing:2px;background:none;border:none;border-bottom:2px solid transparent;color:#555;cursor:pointer;transition:all .15s;-webkit-appearance:none}
+.auth-tab.on{color:#F0EDE8;border-bottom-color:#F0EDE8}
+
+/* PROFILE OVERLAY */
+.profile-ov{display:none;position:fixed;inset:0;z-index:90;background:#060606;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.profile-nav{position:sticky;top:0;background:rgba(6,6,6,.97);border-bottom:1px solid #1C1C1C;padding:13px 16px;padding-top:max(13px,env(safe-area-inset-top));display:flex;align-items:center;gap:10px}
+
+/* MISC */
+.spin{width:22px;height:22px;border:2px solid rgba(255,255,255,.1);border-top-color:#F0EDE8;border-radius:50%;animation:spin .7s linear infinite;margin:30px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:50px 20px;font-family:‘Space Mono’,monospace;font-size:8px;color:#333;letter-spacing:1px;line-height:3.5}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#F0EDE8;color:#060606;font-family:‘Space Mono’,monospace;font-size:9px;letter-spacing:1px;padding:10px 20px;border-radius:2px;z-index:9999;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.9)}
+.toast.on{opacity:1}
+.ann-bar{display:none;border-bottom:1px solid rgba(201,168,76,.12);padding:8px 16px;font-family:‘Space Mono’,monospace;font-size:8px;letter-spacing:1px;text-align:center;background:rgba(201,168,76,.06);color:#C9A84C}
+
+/* TAP EFFECTS */
+button:active,.btn:active,.nb:active,.tf:active,.fchip:active,.ec:active,.vc:active{opacity:.65!important;transform:scale(.96)!important;transition:opacity .08s,transform .08s!important}
+a:active{opacity:.6!important}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<div class="nav">
+  <a href="./" class="nav-wordmark" id="nav-brand">LISTED</a>
+  <div style="flex:1"></div>
+  <div style="display:flex;gap:4px;margin-right:6px" id="lang-switcher">
+    <button class="lang-btn on" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('tr')">TR</button>
+    <button class="lang-btn" onclick="setLang('ru')">РУ</button>
+  </div>
+  <button class="nb" id="member-btn" onclick="openAuthModal()" style="display:none">👤</button>
+  <button class="nb" id="nav-btn" onclick="navBtnClick()">ADMIN</button>
+</div>
+
+<div class="ann-bar" id="ann-bar"></div>
+
+<!-- MAIN CONTENT -->
+
+<div id="main-content"></div>
+
+<div style="padding-bottom:60px"></div>
+
+<!-- AUTH MODAL -->
+
+<div class="modal-bg" id="auth-modal">
+  <div class="modal-sheet">
+    <div class="auth-tabs">
+      <button class="auth-tab on" id="tab-login" onclick="switchAuthTab('login')" data-l='{"en":"SIGN IN","tr":"GİRİŞ","ru":"ВОЙТИ"}'></button>
+      <button class="auth-tab" id="tab-reg" onclick="switchAuthTab('reg')" data-l='{"en":"JOIN","tr":"ÜYE OL","ru":"ВСТУПИТЬ"}'></button>
+    </div>
+    <!-- Login -->
+    <div id="auth-login">
+      <label class="flbl" data-l='{"en":"EMAIL","tr":"E-POSTA","ru":"E-MAIL"}'></label>
+      <input class="fi" type="email" id="m-email" inputmode="email" autocomplete="email">
+      <label class="flbl" data-l='{"en":"PASSWORD","tr":"ŞİFRE","ru":"ПАРОЛЬ"}' style="margin-top:4px"></label>
+      <input class="fi" type="password" id="m-pw" autocomplete="current-password">
+      <div style="font-family:Space Mono,monospace;font-size:9px;color:#C0392B;text-align:center;min-height:18px;margin-bottom:8px" id="m-err"></div>
+      <button class="btn" id="m-btn" onclick="doLogin()" data-l='{"en":"SIGN IN","tr":"GİRİŞ YAP","ru":"ВОЙТИ"}'></button>
+      <button onclick="switchAuthTab('forgot')" style="display:block;width:100%;text-align:center;font-family:Space Mono,monospace;font-size:8px;color:#333;background:none;border:none;cursor:pointer;padding:6px;text-decoration:underline;margin-top:4px" data-l='{"en":"Forgot password","tr":"Şifremi unuttum","ru":"Забыл пароль"}'></button>
+      <button onclick="doGoogleLogin()" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#111;color:#F0EDE8;border:1px solid #2A2A2A;border-radius:2px;padding:12px;font-family:Space Mono,monospace;font-size:9px;cursor:pointer;letter-spacing:1px;margin-top:8px" data-l='{"en":"Continue with Google","tr":"Google ile Devam","ru":"Войти через Google"}'></button>
+      <button onclick="closeAuthModal()" style="display:block;width:100%;text-align:center;font-family:Space Mono,monospace;font-size:9px;color:#333;background:none;border:none;cursor:pointer;padding:8px;margin-top:4px" data-l='{"en":"Cancel","tr":"Vazgeç","ru":"Отмена"}'></button>
+    </div>
+    <!-- Register -->
+    <div id="auth-reg" style="display:none">
+      <label class="flbl" data-l='{"en":"FULL NAME","tr":"İSİM SOYİSİM","ru":"ИМЯ ФАМИЛИЯ"}'></label>
+      <input class="fi" type="text" id="r-name" autocomplete="name">
+      <label class="flbl" data-l='{"en":"EMAIL","tr":"E-POSTA","ru":"E-MAIL"}'></label>
+      <input class="fi" type="email" id="r-email" inputmode="email" autocomplete="email">
+      <label class="flbl" data-l='{"en":"PASSWORD","tr":"ŞİFRE","ru":"ПАРОЛЬ"}'></label>
+      <input class="fi" type="password" id="r-pw" autocomplete="new-password">
+      <label class="flbl" data-l='{"en":"PHONE","tr":"TELEFON","ru":"ТЕЛЕФОН"}'></label>
+      <div class="ph-row">
+        <select id="r-cc" class="ph-cc"><option value="+90">TR +90</option><option value="+7">RU +7</option><option value="+1">US +1</option><option value="+44">UK +44</option><option value="+49">DE +49</option><option value="+33">FR +33</option></select>
+        <input type="tel" id="r-ph" class="ph-nm" inputmode="numeric" maxlength="15">
+      </div>
+      <div style="font-family:Space Mono,monospace;font-size:9px;color:#C0392B;text-align:center;min-height:18px;margin-bottom:8px" id="r-err"></div>
+      <button class="btn" id="r-btn" onclick="doRegister()" data-l='{"en":"APPLY","tr":"BAŞVUR","ru":"ПОДАТЬ ЗАЯВКУ"}'></button>
+      <div style="font-family:Space Mono,monospace;font-size:7px;color:#333;text-align:center;letter-spacing:1px;line-height:2;margin-top:8px" data-l='{"en":"Your application will be reviewed by the venue admin.","tr":"Başvurunuz mekan admini tarafından onaylanacak.","ru":"Ваша заявка будет рассмотрена администратором."}'></div>
+      <button onclick="doGoogleLogin()" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#111;color:#F0EDE8;border:1px solid #2A2A2A;border-radius:2px;padding:12px;font-family:Space Mono,monospace;font-size:9px;cursor:pointer;letter-spacing:1px;margin-top:10px" data-l='{"en":"Sign up with Google","tr":"Google ile Kayıt","ru":"Регистрация через Google"}'></button>
+      <button onclick="closeAuthModal()" style="display:block;width:100%;text-align:center;font-family:Space Mono,monospace;font-size:9px;color:#333;background:none;border:none;cursor:pointer;padding:8px;margin-top:4px" data-l='{"en":"Cancel","tr":"Vazgeç","ru":"Отмена"}'></button>
+    </div>
+    <!-- Forgot -->
+    <div id="auth-forgot" style="display:none">
+      <label class="flbl" data-l='{"en":"EMAIL","tr":"E-POSTA","ru":"E-MAIL"}'></label>
+      <input class="fi" type="email" id="fg-email" inputmode="email">
+      <div style="font-family:Space Mono,monospace;font-size:9px;color:#3D9B5A;text-align:center;min-height:18px;margin-bottom:8px;display:none" id="fg-ok"></div>
+      <div style="font-family:Space Mono,monospace;font-size:9px;color:#C0392B;text-align:center;min-height:18px;margin-bottom:8px" id="fg-err"></div>
+      <button class="btn" id="fg-btn" onclick="doForgotPw()" data-l='{"en":"SEND RESET LINK","tr":"SIFIRLAMA LINKI GÖNDER","ru":"ОТПРАВИТЬ ССЫЛКУ"}'></button>
+      <button onclick="switchAuthTab('login')" style="display:block;width:100%;text-align:center;font-family:Space Mono,monospace;font-size:9px;color:#444;background:none;border:none;cursor:pointer;padding:8px" data-l='{"en":"← Back","tr":"← Geri","ru":"← Назад"}'></button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE OVERLAY -->
+
+<div class="profile-ov" id="profile-overlay">
+  <div class="profile-nav">
+    <span style="font-family:Space Mono,monospace;font-weight:700;font-size:12px;letter-spacing:2px" data-l='{"en":"MY PROFILE","tr":"PROFİLİM","ru":"МОЙ ПРОФИЛЬ"}'></span>
+    <div style="flex:1"></div>
+    <button onclick="closeProfile()" style="font-family:Space Mono,monospace;font-size:8px;color:#666;background:none;border:1px solid #2A2A2A;padding:6px 12px;border-radius:2px;cursor:pointer;-webkit-appearance:none" data-l='{"en":"CLOSE","tr":"KAPAT","ru":"ЗАКРЫТЬ"}'></button>
+    <button onclick="doLogout()" style="font-family:Space Mono,monospace;font-size:8px;color:#C0392B;background:none;border:1px solid rgba(192,57,43,.3);padding:6px 12px;border-radius:2px;cursor:pointer;-webkit-appearance:none;margin-left:6px" data-l='{"en":"SIGN OUT","tr":"ÇIKIŞ","ru":"ВЫЙТИ"}'></button>
+  </div>
+  <div id="profile-content" style="padding:16px 16px 80px"></div>
+</div>
+
+<!-- PAYMENT MODAL (iyzico ready) -->
+
+<div class="modal-bg" id="pay-modal">
+  <div class="modal-sheet">
+    <div style="font-family:Space Mono,monospace;font-weight:700;font-size:13px;letter-spacing:2px;margin-bottom:4px" data-l='{"en":"PAYMENT","tr":"ÖDEME","ru":"ОПЛАТА"}'></div>
+    <div id="pay-event-name" style="font-family:Space Mono,monospace;font-size:9px;color:#666;margin-bottom:6px"></div>
+    <div id="pay-amount" style="font-family:Space Mono,monospace;font-size:32px;font-weight:900;color:#C9A84C;margin-bottom:20px"></div>
+    <div id="iyzico-container" style="min-height:60px;display:flex;align-items:center;justify-content:center;border:1px solid #1C1C1C;border-radius:2px;padding:16px;margin-bottom:16px;background:#0a0a0a">
+      <span style="font-family:Space Mono,monospace;font-size:8px;color:#333;letter-spacing:1px;text-align:center" data-l='{"en":"Payment gateway coming soon.","tr":"Ödeme altyapısı yakında.","ru":"Платёжный шлюз скоро."}'></span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button onclick="closePayModal()" style="background:none;color:#666;border:1px solid #2A2A2A;border-radius:2px;padding:12px;font-family:Space Mono,monospace;font-size:10px;cursor:pointer;-webkit-appearance:none" data-l='{"en":"CANCEL","tr":"VAZGEÇ","ru":"ОТМЕНА"}'></button>
+      <button id="pay-btn" onclick="processPayment()" style="background:#C9A84C;color:#060606;border:none;border-radius:2px;padding:12px;font-family:Space Mono,monospace;font-size:10px;font-weight:700;cursor:pointer;-webkit-appearance:none;letter-spacing:1px" data-l='{"en":"PAY","tr":"ÖDE","ru":"ОПЛАТИТЬ"}'></button>
+    </div>
+  </div>
+</div>
+
+<!-- RATING MODAL placeholder -->
+
+<div id="rating-modal-placeholder"></div>
+
+<div class="toast" id="toast-el"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────
+var SB  = 'https://ilybetbphzzgotruiegm.supabase.co';
+var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlseWJldGJwaHp6Z290cnVpZWdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxNDQ5OTEsImV4cCI6MjA5MDcyMDk5MX0.REb1XLJdDMxS_TrJgUoVpFI8qe8XZB7fqBxIfX3AYSg';
+var IYZICO_KEY = null;
+var SLUG = new URLSearchParams(location.search).get('v');
+var IS_DISC = !SLUG;
+
+// ── LANGUAGE ─────────────────────────────────────────────────────
+var LANG = 'en';
+(function detectLang(){
+  var stored = localStorage.getItem('lst_lang');
+  if(stored){ LANG=stored; return; }
+  var nav = (navigator.language||navigator.userLanguage||'').toLowerCase();
+  if(nav.startsWith('tr')) LANG='tr';
+  else if(nav.startsWith('ru')) LANG='ru';
+  else LANG='en';
+})();
+
+var T = {
+  en:{
+    tagline:'What\'s happening in Fethiye',
+    tonight:'Tonight',
+    weekend:'This Weekend',
+    all:'All Events',
+    events:'Events',
+    venues:'Venues',
+    reserve:'RESERVE',
+    noEvents:'No events found.',
+    noVenues:'No venues yet.',
+    eventsTonight:' events tonight',
+    eventsWeekend:' events this weekend',
+    eventsTotal:' upcoming events',
+    noEventsTonight:'Nothing tonight — check the weekend',
+    listYourVenue:'LIST YOUR VENUE',
+    listYourVenueSub:'Set up your reservation system in minutes. Free to start.',
+    applyFree:'APPLY FREE →',
+    pendingApp:'Application pending review by venue admin.',
+    memberNote:'Making a reservation without an account.',
+    name:'FULL NAME',
+    phone:'PHONE',
+    guests:'GUESTS',
+    tableSelect:'SELECT TABLE',
+    tableOptional:'Optional',
+    rulesAccept:'I have read and accept the rules',
+    sendReservation:'SEND RESERVATION',
+    rulesRequired:'Please accept the rules',
+    nameRequired:'Name is required',
+    phoneRequired:'Phone is required',
+    guestName:'guest name',
+    alreadyReserved:'You already have a reservation for this event',
+    resReceived:'Reservation received!',
+    error:'An error occurred, please try again',
+    myProfile:'MY PROFILE',
+    attended:'ATTENDED',
+    streak:'STREAK',
+    points:'POINTS',
+    myReservations:'MY RESERVATIONS',
+    noReservations:'No reservations found',
+    cancelRes:'CANCEL RESERVATION',
+    copyLink:'COPY LINK',
+    whatsapp:'WHATSAPP',
+    invitedCount:' invited',
+    inviteNote:'Friend joins: +50 pts. First event: +100 pts.',
+    rateBtnTxt:'★ RATE EVENT',
+    pendingLbl:'PENDING',approvedLbl:'APPROVED',rejectedLbl:'REJECTED',usedLbl:'ATTENDED',cancelledLbl:'CANCELLED'
+  },
+  tr:{
+    tagline:'Fethiye\'de bu gece',
+    tonight:'Bu Gece',
+    weekend:'Bu Hafta Sonu',
+    all:'Tüm Etkinlikler',
+    events:'Etkinlikler',
+    venues:'Mekanlar',
+    reserve:'REZERVE ET',
+    noEvents:'Etkinlik bulunamadı.',
+    noVenues:'Henüz mekan yok.',
+    eventsTonight:' etkinlik bu gece',
+    eventsWeekend:' etkinlik bu hafta sonu',
+    eventsTotal:' yaklaşan etkinlik',
+    noEventsTonight:'Bu gece etkinlik yok — hafta sonuna bakın',
+    listYourVenue:'MEKANINIZI EKLEYİN',
+    listYourVenueSub:'Dakikalar içinde rezervasyon sisteminizi kurun. Başlangıç ücretsiz.',
+    applyFree:'ÜCRETSİZ BAŞVUR →',
+    pendingApp:'Başvurunuz mekan admini tarafından incelenecek.',
+    memberNote:'Üye olmadan rezervasyon yapıyorsunuz.',
+    name:'İSİM SOYİSİM',
+    phone:'TELEFON',
+    guests:'KİŞİ SAYISI',
+    tableSelect:'MASA SEÇ',
+    tableOptional:'Opsiyonel',
+    rulesAccept:'Kuralları okudum ve kabul ediyorum',
+    sendReservation:'REZERVASYON GÖNDER',
+    rulesRequired:'Lütfen kuralları onaylayın',
+    nameRequired:'İsim zorunludur',
+    phoneRequired:'Telefon zorunludur',
+    guestName:'misafir ismi',
+    alreadyReserved:'Bu etkinliğe zaten kayıt yaptırdınız',
+    resReceived:'Rezervasyon talebiniz alındı!',
+    error:'Bir hata oluştu, tekrar deneyin',
+    myProfile:'PROFİLİM',
+    attended:'KATILIM',
+    streak:'SERİ',
+    points:'PUAN',
+    myReservations:'REZERVASYONLARIM',
+    noReservations:'Rezervasyon bulunamadı',
+    cancelRes:'REZERVASYONU İPTAL ET',
+    copyLink:'LİNK KOPYALA',
+    whatsapp:'WHATSAPP',
+    invitedCount:' kişi davet edildi',
+    inviteNote:'Arkadaşın üye olunca +50, ilk etkinliğe katılınca +100 puan.',
+    rateBtnTxt:'★ ETKİNLİĞİ PUANLA',
+    pendingLbl:'BEKLEMEDE',approvedLbl:'ONAYLANDI',rejectedLbl:'REDDEDİLDİ',usedLbl:'KATILINDI',cancelledLbl:'İPTAL'
+  },
+  ru:{
+    tagline:'Что происходит в Фетхие',
+    tonight:'Сегодня',
+    weekend:'На Выходных',
+    all:'Все События',
+    events:'События',
+    venues:'Заведения',
+    reserve:'ЗАБРОНИРОВАТЬ',
+    noEvents:'События не найдены.',
+    noVenues:'Заведений пока нет.',
+    eventsTonight:' событий сегодня',
+    eventsWeekend:' событий на выходных',
+    eventsTotal:' предстоящих событий',
+    noEventsTonight:'Сегодня нет событий — смотрите выходные',
+    listYourVenue:'ДОБАВИТЬ ЗАВЕДЕНИЕ',
+    listYourVenueSub:'Настройте систему бронирования за минуты. Бесплатный старт.',
+    applyFree:'ПОДАТЬ ЗАЯВКУ →',
+    pendingApp:'Ваша заявка будет рассмотрена администратором.',
+    memberNote:'Бронирование без аккаунта.',
+    name:'ИМЯ ФАМИЛИЯ',
+    phone:'ТЕЛЕФОН',
+    guests:'КОЛИЧЕСТВО ГОСТЕЙ',
+    tableSelect:'ВЫБРАТЬ СТОЛ',
+    tableOptional:'Необязательно',
+    rulesAccept:'Я прочитал и принимаю правила',
+    sendReservation:'ОТПРАВИТЬ БРОНИРОВАНИЕ',
+    rulesRequired:'Пожалуйста, примите правила',
+    nameRequired:'Имя обязательно',
+    phoneRequired:'Телефон обязателен',
+    guestName:'имя гостя',
+    alreadyReserved:'Вы уже зарезервировали место на это событие',
+    resReceived:'Бронирование получено!',
+    error:'Произошла ошибка, попробуйте снова',
+    myProfile:'МОЙ ПРОФИЛЬ',
+    attended:'ПОСЕЩЕНИЙ',
+    streak:'СЕРИЯ',
+    points:'ОЧКИ',
+    myReservations:'МОИ БРОНИРОВАНИЯ',
+    noReservations:'Бронирования не найдены',
+    cancelRes:'ОТМЕНИТЬ БРОНИРОВАНИЕ',
+    copyLink:'КОПИРОВАТЬ ССЫЛКУ',
+    whatsapp:'WHATSAPP',
+    invitedCount:' приглашено',
+    inviteNote:'Друг вступит: +50 очков. Первое событие: +100 очков.',
+    rateBtnTxt:'★ ОЦЕНИТЬ СОБЫТИЕ',
+    pendingLbl:'ОЖИДАЕТ',approvedLbl:'ОДОБРЕНО',rejectedLbl:'ОТКЛОНЕНО',usedLbl:'ПОСЕЩЕНО',cancelledLbl:'ОТМЕНЕНО'
+  }
+};
+function t(k){ return (T[LANG]&&T[LANG][k]) || T.en[k] || k; }
+
+function setLang(lang){
+  LANG = lang;
+  localStorage.setItem('lst_lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.classList.toggle('on', b.textContent.trim().toLowerCase()===lang || (lang==='ru'&&b.textContent.trim()==='РУ'));
+  });
+  applyTranslations();
+  if(IS_DISC) renderDiscSkeleton(); else renderVenueHeader();
+}
+
+function applyTranslations(){
+  document.querySelectorAll('[data-l]').forEach(function(el){
+    try{
+      var map=JSON.parse(el.getAttribute('data-l'));
+      if(map[LANG]) el.textContent=map[LANG];
+      else if(map.en) el.textContent=map.en;
+    }catch(e){}
+  });
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+var TIER_LBL = {bronze:'TANIK',silver:'MUDAVIM',gold:'DEMIRBA',elite:'KOMUTAN'};
+function ge(id){ return document.getElementById(id); }
+function esc(s){ if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
+function rnd(n){ var r=''; for(var i=0;i<n;i++)r+='0123456789abcdef'[Math.floor(Math.random()*16)]; return r; }
+function toast(m){ var t=ge('toast-el'); t.textContent=m; t.classList.add('on'); clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('on');},2800); }
+function gc(g){ if(!g)return'#666'; g=g.toLowerCase(); if(g.includes('techno'))return'#E8302F'; if(g.includes('house'))return'#E0A030'; if(g.includes('deep'))return'#4A7FE0'; if(g.includes('acid'))return'#9B59B6'; if(g.includes('ambient'))return'#00C9A7'; if(g.includes('dnb')||g.includes('drum'))return'#E06030'; if(g.includes('jazz')||g.includes('live'))return'#4ECDC4'; return'#888'; }
+function fmtDate(s,lang){
+  if(!s)return'';
+  try{
+    var d=new Date(s+'T12:00:00');
+    var days={en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],tr:['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'],ru:['Вс','Пн','Вт','Ср','Чт','Пт','Сб']};
+    var months={en:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],tr:['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],ru:['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек']};
+    var l=lang||LANG;
+    return (days[l]||days.en)[d.getDay()]+' '+d.getDate()+' '+(months[l]||months.en)[d.getMonth()];
+  }catch(e){return s;}
+}
+function cdStr(s){
+  var today=new Date();today.setHours(0,0,0,0);
+  var diff=Math.round((new Date(s+'T12:00:00')-today)/864e5);
+  if(diff===0)return{en:' · TONIGHT',tr:' · BU GECE',ru:' · СЕГОДНЯ'}[LANG]||' · TONIGHT';
+  if(diff===1)return{en:' · TOMORROW',tr:' · YARIN',ru:' · ЗАВТРА'}[LANG]||' · TOMORROW';
+  if(diff>1&&diff<=7)return' · '+diff+'D';
+  return'';
+}
+function isTonight(s){
+  var today=new Date().toISOString().split('T')[0];
+  return s===today;
+}
+function isThisWeekend(s){
+  var d=new Date(s+'T12:00:00');
+  var day=d.getDay();
+  var today=new Date();today.setHours(0,0,0,0);
+  var diff=Math.round((d-today)/864e5);
+  return diff>=0&&diff<=6&&(day===0||day===5||day===6||day===4);
+}
+
+// ── FETCH ─────────────────────────────────────────────────────────
+function sbGet(path){
+  return new Promise(function(resolve){
+    var ctrl=new AbortController();
+    var timer=setTimeout(function(){ctrl.abort();resolve([]);},8000);
+    fetch(SB+'/rest/v1/'+path,{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY},signal:ctrl.signal})
+      .then(function(r){return r.json();})
+      .then(function(d){clearTimeout(timer);resolve(Array.isArray(d)?d:[]);})
+      .catch(function(){clearTimeout(timer);resolve([]);});
+  });
+}
+function sbPost(table,data){
+  return new Promise(function(resolve){
+    fetch(SB+'/rest/v1/'+table,{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(data)})
+      .then(function(r){return r.json().then(function(d){return{ok:r.ok,data:Array.isArray(d)?d[0]:d,code:d&&d.code};});})
+      .then(resolve).catch(function(e){resolve({ok:false,data:null,code:null});});
+  });
+}
+
+// ── STATE ──────────────────────────────────────────────────────────
+var venue=null, events=[], allVenues=[], counts={}, timeFilter='all', discCat='', session=null, profile=null, _payContext=null;
+
+// ── BOOT ──────────────────────────────────────────────────────────
+// ── SERVICE WORKER + PUSH ─────────────────────────────────────────
+(function registerSW(){
+  if(!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('./sw.js').then(function(reg){
+    window._swReg = reg;
+  }).catch(function(){});
+})();
+
+async function requestPushPermission(){
+  if(!('Notification' in window)) return false;
+  if(Notification.permission === 'granted') return true;
+  if(Notification.permission === 'denied') return false;
+  var perm = await Notification.requestPermission();
+  return perm === 'granted';
+}
+
+// Ask for push when reservation is confirmed
+async function askPushAfterRes(){
+  if(!window._swReg) return;
+  if(Notification.permission !== 'default') return;
+  setTimeout(async function(){
+    var granted = await requestPushPermission();
+    if(granted) toast('Bildirimler aktif — rezervasyon onaylarini alacaksiniz');
+  }, 2000);
+}
+
+(async function init(){
+  applyTranslations();
+  await loadMemberSession();
+  if(IS_DISC){ renderDiscSkeleton(); await loadDisc(); }
+  else { renderVenueSkeleton(); await loadVenue(); }
+  // Auto-open event from detail page redirect
+  var openEvId = localStorage.getItem('lst_open_ev');
+  if(openEvId){ localStorage.removeItem('lst_open_ev'); setTimeout(function(){ var e=events.find(function(x){return x.id===openEvId;}); if(e) togglePanel(e.id, e.color||'#888'); },600); }
+  // Handle ?ref= param
+  var ref=new URLSearchParams(location.search).get('ref');
+  if(ref&&!session) setTimeout(function(){ openAuthModal(); switchAuthTab('reg'); },1200);
+})();
+
+// ── AUTH ──────────────────────────────────────────────────────────
+function storedSession(){ try{var s=localStorage.getItem('lst_sess');return s?JSON.parse(s):null;}catch(e){return null;} }
+function storeSession(s){ session=s; try{localStorage.setItem('lst_sess',JSON.stringify(s));}catch(e){} }
+function clearSession(){ session=null;profile=null;try{localStorage.removeItem('lst_sess');}catch(e){} }
+function authHeaders(){ var tok=session&&session.access_token?session.access_token:KEY; return{'apikey':KEY,'Authorization':'Bearer '+tok,'Content-Type':'application/json','Prefer':'return=representation'}; }
+function authPost(path,body){ return new Promise(function(resolve){ fetch(SB+'/auth/v1'+path,{method:'POST',headers:{'apikey':KEY,'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d,error:d.error_description||d.msg||null};});}).then(resolve).catch(function(e){resolve({ok:false,data:null,error:e.message});}); }); }
+
+async function loadMemberSession(){
+  var stored=storedSession(); if(!stored||!stored.access_token)return;
+  session=stored;
+  var uid=stored.user&&stored.user.id||stored.sub; if(!uid)return;
+  var q='profiles?id=eq.'+uid+'&limit=1';
+  if(venue)q+='&venue_id=eq.'+venue.id;
+  var pd=await sbGet(q);
+  if(pd.length){profile=pd[0];showMemberUI();}
+  else clearSession();
+}
+
+function showMemberUI(){ var mb=ge('member-btn');if(mb)mb.style.display='block'; var nb=ge('nav-btn');if(nb)nb.style.display='none'; }
+function hideMemberUI(){ var mb=ge('member-btn');if(mb)mb.style.display='none'; var nb=ge('nav-btn');if(nb)nb.style.display='block'; }
+
+function openAuthModal(){ ge('auth-modal').classList.add('on'); }
+function closeAuthModal(){ ge('auth-modal').classList.remove('on'); }
+function switchAuthTab(tab){
+  ge('auth-login').style.display=tab==='login'?'block':'none';
+  ge('auth-reg').style.display=tab==='reg'?'block':'none';
+  var fg=ge('auth-forgot');if(fg)fg.style.display=tab==='forgot'?'block':'none';
+  ge('tab-login').classList.toggle('on',tab==='login');
+  ge('tab-reg').classList.toggle('on',tab==='reg');
+}
+
+async function doLogin(){
+  var email=ge('m-email').value.toLowerCase().trim(),pw=ge('m-pw').value;
+  ge('m-err').textContent=''; if(!email||!pw){ge('m-err').textContent='Fill all fields';return;}
+  ge('m-btn').disabled=true;ge('m-btn').textContent='...';
+  var r=await authPost('/token?grant_type=password',{email:email,password:pw});
+  ge('m-btn').disabled=false;ge('m-btn').textContent=t('sign_in')||'SIGN IN';
+  if(!r.ok){ge('m-err').textContent='Invalid email or password';return;}
+  storeSession(r.data);
+  var uid=r.data.user&&r.data.user.id||r.data.sub;
+  var pd=await sbGet('profiles?id=eq.'+uid+'&limit=1');
+  if(pd.length){profile=pd[0];showMemberUI();closeAuthModal();toast('Welcome back, '+profile.name+'!');}
+  else{clearSession();ge('m-err').textContent='Profile not found';}
+}
+
+async function doRegister(){
+  var name=ge('r-name').value.trim(),email=ge('r-email').value.toLowerCase().trim(),pw=ge('r-pw').value;
+  var cc=ge('r-cc').value||'+90',ph=ge('r-ph').value.trim().replace(/^0+/,'');
+  var phone=ph?(cc+ph):'';
+  ge('r-err').textContent='';
+  if(!name||!email||!pw||!phone){ge('r-err').textContent='Fill all fields';return;}
+  if(pw.length<8){ge('r-err').textContent='Password must be 8+ chars';return;}
+  ge('r-btn').disabled=true;ge('r-btn').textContent='...';
+  var meta={name:name,phone:phone}; if(venue)meta.venue_id=venue.id;
+  var ref=new URLSearchParams(location.search).get('ref'); if(ref)meta.ref_by=ref;
+  var r=await authPost('/signup',{email:email,password:pw,data:meta});
+  ge('r-btn').disabled=false;ge('r-btn').textContent=t('apply')||'APPLY';
+  if(!r.ok){ge('r-err').textContent=r.error||'Registration failed';return;}
+  if(ref&&r.data&&r.data.user){
+    var refProfile=await sbGet('profiles?referral_code=eq.'+encodeURIComponent(ref)+'&limit=1');
+    if(refProfile.length){
+      setTimeout(async function(){
+        await fetch(SB+'/rest/v1/profiles?id=eq.'+(r.data.user.id||''),{method:'PATCH',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify({ref_by:ref,referred_by_id:refProfile[0].id})});
+      },1500);
+    }
+  }
+  closeAuthModal(); toast(t('pendingApp')||'Application received!');
+}
+
+async function doForgotPw(){
+  var email=ge('fg-email')&&ge('fg-email').value.toLowerCase().trim();
+  ge('fg-err').textContent=''; var ok=ge('fg-ok'); if(ok)ok.style.display='none';
+  if(!email){ge('fg-err').textContent='Email required';return;}
+  var btn=ge('fg-btn');if(btn){btn.disabled=true;btn.textContent='...';}
+  var r=await authPost('/recover',{email:email,gotrue_meta_security:{}});
+  if(btn){btn.disabled=false;btn.textContent=t('sendResetLink')||'SEND';}
+  if(r.ok){if(ok){ok.style.display='block';ok.textContent='Reset link sent!';}}
+  else{ge('fg-err').textContent='Send failed';}
+}
+
+async function doGoogleLogin(){
+  var redirectTo=location.href.split('?')[0]+(SLUG?'?v='+SLUG:'');
+  location.href=SB+'/auth/v1/authorize?provider=google&redirect_to='+encodeURIComponent(redirectTo);
+}
+
+(function checkOAuthRedirect(){
+  var hash=location.hash;
+  if(hash&&hash.includes('access_token')){
+    var params=new URLSearchParams(hash.replace('#','?'));
+    var token=params.get('access_token');
+    if(token){
+      var fakeSession={access_token:token,refresh_token:params.get('refresh_token')};
+      fetch(SB+'/auth/v1/user',{headers:{'apikey':KEY,'Authorization':'Bearer '+token}})
+        .then(function(r){return r.json();})
+        .then(function(u){fakeSession.user=u;fakeSession.sub=u.id;storeSession(fakeSession);history.replaceState(null,'',location.pathname+location.search);toast('Signed in!');})
+        .catch(function(){});
+    }
+  }
+})();
+
+async function doLogout(){ clearSession();hideMemberUI();closeProfile();toast('Signed out'); }
+function navBtnClick(){ location.href='admin.html'+(SLUG?'?v='+SLUG:''); }
+
+// ── DISCOVERY MODE ─────────────────────────────────────────────────
+function renderDiscSkeleton(){
+  var mc=ge('main-content'); if(!mc)return;
+  mc.innerHTML=
+    '<div class="hero">'
+    +'<div class="hero-city">FETHIYE &middot; TURKEY</div>'
+    +'<div class="hero-title" id="hero-title">'+t('tagline')+'</div>'
+    +'<div class="hero-sub" id="hero-sub"></div>'
+    +'<div class="hero-count empty" id="hero-count">...</div>'
+    +'<div class="time-filters">'
+    +'<button class="tf '+(timeFilter==='tonight'?'on':'')+'" onclick="setTF(this,\'tonight\')">'+t('tonight')+'</button>'
+    +'<button class="tf '+(timeFilter==='weekend'?'on':'')+'" onclick="setTF(this,\'weekend\')">'+t('weekend')+'</button>'
+    +'<button class="tf '+(timeFilter==='all'?'on':'')+'" onclick="setTF(this,\'all\')">'+t('all')+'</button>'
+    +'</div>'
+    +'<div class="filter-row" id="cat-filters">'
+    +'<button class="fchip on" onclick="setDCat(this,\'\')">ALL</button>'
+    +'</div>'
+    +'</div>'
+    +'<div class="sec-hd"><span class="sec-ttl" id="ev-sec-ttl">'+t('events').toUpperCase()+'</span><span class="sec-ct" id="ev-sec-ct"></span></div>'
+    +'<div id="ev-list"><div class="spin"></div></div>'
+    +'<div class="sec-hd"><span class="sec-ttl">'+t('venues').toUpperCase()+'</span></div>'
+    +'<div id="venue-list"><div class="spin"></div></div>'
+    +'<div id="join-cta-wrap"></div>';
+}
+
+async function loadDisc(){
+  var today=new Date().toISOString().split('T')[0];
+  var [evData,venueData,catData]=await Promise.all([
+    sbGet('events?select=*&status=eq.active&date=gte.'+today+'&order=date.asc&limit=60'),
+    sbGet('venues?select=id,name,slug,city,address,accent_color,logo_b64,tagline,settings&active=eq.true&order=name.asc'),
+    sbGet('categories?select=*&active=eq.true&order=sort_order.asc')
+  ]);
+  events=evData; allVenues=venueData;
+
+  // Build city filter (add to hero-sub)
+  var cities=[]; allVenues.forEach(function(v){if(v.city&&cities.indexOf(v.city)<0)cities.push(v.city);});
+  var subEl=ge('hero-sub');
+  if(subEl){
+    if(cities.length>1) subEl.textContent=cities.join(' · ');
+    else subEl.textContent='Electronic music · Bars · Live events';
+  }
+
+  // Cat filters
+  var cf=ge('cat-filters');
+  if(cf&&catData.length){
+    var html='<button class="fchip on" onclick="setDCat(this,\'\')">ALL</button>';
+    catData.forEach(function(c){html+='<button class="fchip" onclick="setDCat(this,\''+c.slug+'\')">'+( c.icon||'')+' '+c.name.toUpperCase()+'</button>';});
+    cf.innerHTML=html;
+  }
+
+  renderDiscEvents();
+  renderVenueList();
+  renderJoinCTA();
+
+  // Load announcement
+  sbGet('announcements?select=title,message&target_type=eq.all_users&from_platform=eq.true&active=eq.true&order=created_at.desc&limit=1').then(function(ad){
+    if(ad.length){var ab=ge('ann-bar');if(ab){ab.style.display='block';ab.textContent=ad[0].title?(ad[0].title+': '+ad[0].message):ad[0].message;}}
+  });
+}
+
+function setTF(el,tf){
+  timeFilter=tf;
+  document.querySelectorAll('.tf').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  renderDiscEvents();
+}
+function setDCat(el,cat){
+  discCat=cat;
+  document.querySelectorAll('.fchip').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  renderDiscEvents();
+}
+
+function renderDiscEvents(){
+  var el=ge('ev-list'); if(!el)return;
+  var filtered=events.filter(function(e){
+    if(discCat&&(e.category||'')!==discCat)return false;
+    if(timeFilter==='tonight')return isTonight(e.date);
+    if(timeFilter==='weekend')return isThisWeekend(e.date);
+    return true;
+  });
+
+  // Update count badge
+  var ct=ge('hero-count');
+  if(ct){
+    if(!filtered.length){
+      ct.className='hero-count empty';
+      ct.textContent=timeFilter==='tonight'?t('noEventsTonight'):t('noEvents');
+    } else {
+      ct.className='hero-count';
+      var sfx=timeFilter==='tonight'?t('eventsTonight'):timeFilter==='weekend'?t('eventsWeekend'):t('eventsTotal');
+      ct.textContent=filtered.length+sfx;
+    }
+  }
+
+  if(!filtered.length){el.innerHTML='<div class="empty">'+t('noEvents')+'</div>';return;}
+  el.innerHTML=''; var ct2=ge('ev-sec-ct'); if(ct2)ct2.textContent=filtered.length;
+  filtered.forEach(function(e){
+    var vInfo=allVenues.find(function(v){return v.id===e.venue_id;});
+    var color=e.color||gc(e.genre)||(vInfo&&vInfo.accent_color)||'#888';
+    var c=makeEventCard(e,color,vInfo,true);
+    el.appendChild(c.card); el.appendChild(c.panel);
+  });
+}
+
+function renderVenueList(){
+  var el=ge('venue-list'); if(!el)return;
+  if(!allVenues.length){el.innerHTML='<div class="empty">'+t('noVenues')+'</div>';return;}
+  el.innerHTML='';
+  allVenues.forEach(function(v){
+    var evCount=events.filter(function(e){return e.venue_id===v.id;}).length;
+    var card=document.createElement('div'); card.className='vc';
+    card.style.borderLeft='3px solid '+(v.accent_color||'#1C1C1C');
+    var inner=document.createElement('div'); inner.className='vc-inner';
+    var logo=document.createElement('div'); logo.className='vc-logo';
+    if(v.logo_b64){var img=document.createElement('img');img.src=v.logo_b64;logo.appendChild(img);}
+    else{logo.textContent='🏛️';}
+    var info=document.createElement('div'); info.className='vc-info';
+    var nm=document.createElement('div'); nm.className='vc-name'; nm.textContent=v.name;
+    var meta=document.createElement('div'); meta.className='vc-meta';
+    var parts=[]; if(v.city)parts.push(v.city); if(v.address)parts.push(v.address);
+    meta.textContent=parts.join(' · ')||'Fethiye';
+    var badge=document.createElement('div'); badge.className='vc-evct '+(evCount?'has':'none');
+    badge.textContent=evCount?(evCount+' '+t('events')):'—';
+    info.appendChild(nm); info.appendChild(meta); info.appendChild(badge);
+    var goBtn=document.createElement('button'); goBtn.className='vc-go';
+    goBtn.textContent=LANG==='ru'?'ПЕРЕЙТИ →':LANG==='tr'?'GİT →':'VIEW →';
+    goBtn.style.borderColor=v.accent_color||'#2A2A2A';
+    (function(slug){goBtn.onclick=function(e){e.stopPropagation();location.href='?v='+slug;};})(v.slug);
+    inner.appendChild(logo); inner.appendChild(info); inner.appendChild(goBtn);
+    card.appendChild(inner);
+    card.onclick=function(){location.href='?v='+v.slug;};
+    el.appendChild(card);
+  });
+}
+
+function renderJoinCTA(){
+  var w=ge('join-cta-wrap'); if(!w)return;
+  w.innerHTML='<div class="join-cta">'
+    +'<div class="join-cta-ttl">'+t('listYourVenue')+'</div>'
+    +'<div class="join-cta-sub">'+t('listYourVenueSub')+'</div>'
+    +'<a href="join.html" class="join-cta-btn">'+t('applyFree')+'</a>'
+    +'</div><div style="height:8px"></div>';
+}
+
+// ── VENUE MODE ─────────────────────────────────────────────────────
+function renderVenueSkeleton(){
+  ge('main-content').innerHTML='<div id="vm-header-wrap"></div><div class="sec-hd"><span class="sec-ttl">'+t('events').toUpperCase()+'</span></div><div id="ev-list"><div class="spin"></div></div>';
+  var ls=ge('lang-switcher'); if(ls)ls.style.display='none';
+}
+
+async function loadVenue(){
+  var today=new Date().toISOString().split('T')[0];
+  var [vd,evData]=await Promise.all([
+    sbGet('venues?select=*&slug=eq.'+encodeURIComponent(SLUG)+'&limit=1'),
+    sbGet('events?select=*&status=eq.active&date=gte.'+today+'&order=date.asc&limit=60')
+  ]);
+  if(vd.length){ venue=vd[0]; applyVenueBrand(venue); }
+  events=venue ? evData.filter(function(e){return e.venue_id===venue.id;}) : evData;
+  renderVenueEvents();
+  if(venue){
+    sbGet('announcements?select=title,message&venue_id=eq.'+venue.id+'&active=eq.true&order=created_at.desc&limit=1').then(function(ad){
+      if(ad.length){var ab=ge('ann-bar');if(ab){ab.style.display='block';ab.textContent=ad[0].title?(ad[0].title+': '+ad[0].message):ad[0].message;}}
+    });
+  }
+}
+
+function renderVenueHeader(){
+  if(!venue) return;
+  var w=ge('vm-header-wrap'); if(!w) return;
+  w.innerHTML='';
+  var lnk=document.createElement('a'); lnk.href='./'; lnk.className='vm-listed-link'; lnk.textContent='LISTED.ME';
+  var hdr=document.createElement('div'); hdr.className='vm-header';
+  var wrap=document.createElement('div'); wrap.className='vm-logo-wrap';
+  var logo=document.createElement('div'); logo.className='vm-logo';
+  if(venue.logo_b64){var img=document.createElement('img');img.src=venue.logo_b64;logo.appendChild(img);}
+  else logo.textContent='🏛️';
+  var info=document.createElement('div'); info.style.flex='1';
+  var nm=document.createElement('div'); nm.className='vm-name'; nm.textContent=venue.name;
+  var tg=document.createElement('div'); tg.className='vm-tag'; tg.textContent=venue.tagline||'';
+  var ct=document.createElement('div'); ct.className='vm-city';
+  var pts=[]; if(venue.city)pts.push(venue.city); if(venue.address)pts.push(venue.address);
+  ct.textContent=pts.join(' · ');
+  info.appendChild(nm); if(venue.tagline)info.appendChild(tg); if(pts.length)info.appendChild(ct);
+  wrap.appendChild(logo); wrap.appendChild(info);
+  hdr.appendChild(wrap);
+  w.appendChild(lnk); w.appendChild(hdr);
+}
+
+function applyVenueBrand(v){
+  document.title=v.name+' — LISTED';
+  var nb=ge('nav-brand'); if(nb)nb.textContent=v.name;
+  if(v.bg_color)document.body.style.background=v.bg_color;
+  if(v.accent_color){ var nav=document.querySelector('.nav');if(nav)nav.style.borderBottomColor=v.accent_color+'33'; }
+  renderVenueHeader();
+}
+
+function renderVenueEvents(){
+  var el=ge('ev-list'); if(!el)return;
+  if(!events.length){el.innerHTML='<div class="empty">'+t('noEvents')+'</div>';return;}
+  el.innerHTML='';
+  events.forEach(function(e){
+    var color=e.color||gc(e.genre)||(venue&&venue.accent_color)||'#888';
+    var c=makeEventCard(e,color,null,false);
+    el.appendChild(c.card); el.appendChild(c.panel);
+  });
+}
+
+// ── SHARED EVENT CARD ──────────────────────────────────────────────
+function makeEventCard(e,color,vInfo,showVenue){
+  var card=document.createElement('div'); card.className='ec'; card.dataset.eid=e.id;
+  var accent=document.createElement('div'); accent.className='ec-accent'; accent.style.background=color;
+  var thumb=document.createElement('div'); thumb.className='ec-thumb';
+  if(e.poster_thumb){var img=document.createElement('img');img.src=e.poster_thumb;img.loading='lazy';thumb.appendChild(img);}
+  else{var ph=document.createElement('div');ph.className='ec-ph';ph.textContent='◈';thumb.appendChild(ph);}
+  var body=document.createElement('div'); body.className='ec-body';
+  var dateStr=fmtDate(e.date)+cdStr(e.date);
+  var dateEl=document.createElement('div'); dateEl.className='ec-date'; dateEl.textContent=dateStr;
+  var priceHtml=(!e.is_free&&e.ticket_price)?'<span class="ec-badge price-badge">'+e.ticket_price+'₺</span>':'';
+  var nameRow=document.createElement('div'); nameRow.style.cssText='display:flex;align-items:center;gap:6px';
+  var nameEl=document.createElement('div'); nameEl.className='ec-name'; nameEl.textContent=e.name;
+  nameRow.appendChild(nameEl);
+  if(priceHtml){var pb=document.createElement('span');pb.className='ec-badge price-badge';pb.textContent=e.ticket_price+'₺';nameRow.appendChild(pb);}
+  body.appendChild(dateEl); body.appendChild(nameRow);
+  if(e.subtitle){var sub=document.createElement('div');sub.className='ec-sub';sub.textContent='"'+e.subtitle+'"';body.appendChild(sub);}
+  if(showVenue&&vInfo){
+    var vl=document.createElement('div');vl.className='ec-venue';
+    vl.innerHTML='<span>'+esc(vInfo.name)+'</span>'+(vInfo.city?' &middot; '+esc(vInfo.city):'');
+    var detLink=document.createElement('a');
+    detLink.href='event.html?id='+e.id;
+    detLink.style.cssText='font-family:Space Mono,monospace;font-size:7px;color:#333;text-decoration:none;margin-left:auto;flex-shrink:0;letter-spacing:1px';
+    detLink.textContent='DETAY';
+    detLink.onclick=function(evt){evt.stopPropagation();};
+    vl.appendChild(detLink);
+    body.appendChild(vl);
+  }
+  var foot=document.createElement('div'); foot.className='ec-foot';
+  var tm=document.createElement('span'); tm.className='ec-time'; tm.textContent=(e.time||'')+(e.time_end?' — '+e.time_end:'');
+  var res=document.createElement('button'); res.className='ec-res'; res.textContent=t('reserve'); res.style.background=color;
+  (function(eid,col){res.onclick=function(ev){ev.stopPropagation();togglePanel(eid,col);};})(e.id,color);
+  var shareBtn=document.createElement('button');
+  shareBtn.style.cssText='background:none;border:none;color:#444;font-size:18px;cursor:pointer;-webkit-appearance:none;padding:4px 6px;flex-shrink:0';
+  shareBtn.textContent='⬆';
+  shareBtn.title='Share';
+  (function(ev2,vi){shareBtn.onclick=function(evt){evt.stopPropagation();shareEvent(ev2,vi);};})(e,vInfo);
+  foot.appendChild(tm); foot.appendChild(shareBtn); foot.appendChild(res);
+  body.appendChild(foot);
+  card.appendChild(accent); card.appendChild(thumb); card.appendChild(body);
+  card.addEventListener('click',function(){togglePanel(e.id,color);});
+  var rp=document.createElement('div'); rp.className='rp'; rp.id='rp-'+e.id;
+  return{card:card,panel:rp};
+}
+
+// ── OG TAGS ───────────────────────────────────────────────────────
+function updateOG(title, desc, img, url){
+  var tags={
+    'og:title':title,'og:description':desc,'og:image':img||'','og:url':url||location.href,
+    'twitter:title':title,'twitter:description':desc,'twitter:image':img||''
+  };
+  Object.keys(tags).forEach(function(k){
+    var el=document.querySelector('meta[property="'+k+'"],meta[name="'+k+'"]');
+    if(el)el.setAttribute('content',tags[k]);
+  });
+  document.title=title;
+}
+
+// Called when event card expands
+function setEventOG(e){
+  var vInfo=IS_DISC?allVenues.find(function(v){return v.id===e.venue_id;}):venue;
+  var title=e.name+(vInfo?' @ '+vInfo.name:'')+' — LISTED';
+  var desc=(e.subtitle||'')+(e.date?' · '+fmtDate(e.date):'')+(e.time?' · '+e.time:'');
+  var img=e.poster_thumb||'';
+  var url=location.origin+location.pathname+'?v='+(SLUG||( vInfo&&vInfo.slug)||'');
+  updateOG(title,desc,img,url);
+}
+
+// ── WEB SHARE ─────────────────────────────────────────────────────
+function shareEvent(e,vInfo){
+  var vname=vInfo?vInfo.name:'';
+  var url=location.origin+location.pathname+'?v='+(SLUG||(vInfo&&vInfo.slug)||'');
+  var parts=[e.name];
+  if(vname)parts.push('@ '+vname);
+  if(e.date)parts.push(fmtDate(e.date));
+  if(e.time)parts.push(e.time);
+  var text=parts.join(' - ');
+  if(navigator.share){
+    navigator.share({title:e.name,text:text,url:url}).catch(function(){});
+  } else {
+    if(navigator.clipboard){navigator.clipboard.writeText(url).then(function(){toast('Link copied!');});}
+    else toast(url);
+  }
+}
+
+// ── RESERVATION PANEL ──────────────────────────────────────────────
+function togglePanel(id,color){
+  var e=events.find(function(x){return x.id===id;}); if(!e)return;
+  document.querySelectorAll('.rp').forEach(function(p){if(p.id!=='rp-'+id){p.classList.remove('op');p.innerHTML='';}});
+  var p=ge('rp-'+id); if(!p)return;
+  if(p.classList.contains('op')){p.classList.remove('op');p.innerHTML='';return;}
+  counts[id]=counts[id]||1;
+  p.innerHTML=buildForm(e,id,color);
+  p.classList.add('op');
+  setEventOG(e);
+  setTimeout(function(){var c=document.querySelector('[data-eid="'+id+'"].ec');if(c)c.scrollIntoView({behavior:'smooth',block:'start'});},50);
+}
+
+function buildForm(e,id,color){
+  var vData=IS_DISC?allVenues.find(function(v){return v.id===e.venue_id;}):venue;
+  var tblHtml='';
+  if(vData&&vData.settings&&vData.settings.tables_enabled){
+    var tData=vData.settings.tables_data||(vData.settings.tables||[]).map(function(t2){return{name:t2};});
+    if(tData.length){
+      var zL={ic:'Indoor',dis:'Outdoor',teras:'Terrace',vip:'VIP',bar:'Bar',sahne:'Stage'};
+      var opts=tData.map(function(td){
+        var nm=typeof td==='string'?td:td.name;
+        var parts=[]; if(typeof td==='object'){if(td.capacity)parts.push(td.capacity+' pax');if(td.min_spend)parts.push('min ₺'+td.min_spend);if(td.zone&&zL[td.zone])parts.push(zL[td.zone]);}
+        return '<option value="'+esc(nm)+'">'+esc(nm)+(parts.length?' ('+parts.join(', ')+')':'')+'</option>';
+      }).join('');
+      tblHtml='<label class="flbl">'+t('tableSelect')+'</label><select class="fi" id="rp-tbl-'+id+'"><option value="">'+t('tableOptional')+'</option>'+opts+'</select>';
+    }
+  }
+  var rulesHtml='';
+  if(e.rules){rulesHtml='<div class="rules-box"><div class="rules-txt">'+esc(e.rules)+'</div><label class="rules-chk"><input type="checkbox" id="rp-chk-'+id+'"><span>'+t('rulesAccept')+'</span></label></div>';}
+  var ccOpts=['+90 TR','+7 RU','+1 US','+44 UK','+49 DE','+33 FR','+31 NL','+43 AT'].map(function(o){var p=o.split(' ')[0];return'<option value="'+p+'">'+o+'</option>';}).join('');
+  return '<div class="rp-in" style="border-left:3px solid '+color+';">'
+    +'<div class="info-note">'+t('memberNote')+'</div>'
+    +'<label class="flbl">'+t('name')+'</label>'
+    +'<input class="fi" type="text" id="rp-nm-'+id+'" autocomplete="name">'
+    +'<label class="flbl">'+t('phone')+'</label>'
+    +'<div class="ph-row"><select class="ph-cc" id="rp-cc-'+id+'">'+ccOpts+'</select><input class="ph-nm" type="tel" id="rp-ph-'+id+'" inputmode="numeric" maxlength="15" placeholder="5xxxxxxxxx"></div>'
+    +'<label class="flbl">'+t('guests')+'</label>'
+    +'<div class="cnt-row"><button class="cnt-b" onclick="chgCnt(\''+id+'\',-1)">&#8722;</button><div class="cnt-v" id="rp-cnt-'+id+'">1</div><button class="cnt-b" onclick="chgCnt(\''+id+'\',1)">+</button></div>'
+    +'<div id="rp-gs-'+id+'"></div>'
+    +tblHtml+rulesHtml
+    +'<button class="btn" id="rp-btn-'+id+'" onclick="submitRes(\''+id+'\')">'+t('sendReservation')+'</button>'
+    +'</div>';
+}
+
+function chgCnt(id,d){
+  counts[id]=Math.max(1,Math.min(20,(counts[id]||1)+d));
+  var cv=ge('rp-cnt-'+id);if(cv)cv.textContent=counts[id];
+  var wrap=ge('rp-gs-'+id);if(!wrap)return; wrap.innerHTML='';
+  for(var i=1;i<counts[id];i++){
+    var div=document.createElement('div');
+    div.innerHTML='<label class="flbl">'+(i+1)+'. '+t('guestName').toUpperCase()+'</label><input class="fi" type="text" id="rp-g'+i+'-'+id+'" placeholder="'+(i+1)+'. '+t('guestName')+'">';
+    wrap.appendChild(div);
+  }
+}
+
+async function submitRes(id){
+  var e=events.find(function(x){return x.id===id;}); if(!e)return;
+  if(!e.is_free&&e.ticket_price&&IYZICO_KEY){openPayModal(e,{event_id:id});return;}
+  var nm=((ge('rp-nm-'+id)||{}).value||'').trim();
+  var cc=(ge('rp-cc-'+id)||{}).value||'+90';
+  var ph=((ge('rp-ph-'+id)||{}).value||'').trim();
+  var phone=ph?(cc+ph):'';
+  if(!nm){toast(t('nameRequired'));return;}
+  if(!phone){toast(t('phoneRequired'));return;}
+  var count=counts[id]||1;
+  var chk=ge('rp-chk-'+id);
+  if(e.rules&&chk&&!chk.checked){toast(t('rulesRequired'));return;}
+  var tSel=ge('rp-tbl-'+id); var tName=tSel?tSel.value:'';
+  var gNames=[];
+  for(var gi=1;gi<count;gi++){var gInp=ge('rp-g'+gi+'-'+id);if(gInp){var gv=gInp.value.trim();if(!gv){toast((gi+1)+'. '+t('guestName'));return;}gNames.push(gv);}}
+  var btn=ge('rp-btn-'+id);if(btn){btn.disabled=true;btn.textContent='...';}
+  var vId=e.venue_id||(venue&&venue.id)||null;
+  var body={qr_id:'LST-'+rnd(8).toUpperCase(),event_id:id,event_name:e.name,event_date:e.date,event_time:e.time||'',name:nm,phone:phone,guest_count:count,guest_names:gNames,status:'pending',rules_accepted:!!(chk&&chk.checked)};
+  if(tName)body.table_name=tName;if(vId)body.venue_id=vId;
+  if(profile)body.profile_id=profile.id;
+  var r=await sbPost('reservations',body);
+  if(btn){btn.disabled=false;btn.textContent=t('sendReservation');}
+  if(!r.ok){
+    if(r.code==='23505')toast(t('alreadyReserved'));
+    else toast(t('error'));
+    return;
+  }
+  toast(t('resReceived'));
+  askPushAfterRes();
+  var p=ge('rp-'+id);if(p){p.classList.remove('op');setTimeout(function(){p.innerHTML='';},400);}
+  counts[id]=1;
+}
+
+// ── PROFILE ────────────────────────────────────────────────────────
+function compressImg(file,cb){
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=new Image(); img.onload=function(){
+      var canvas=document.createElement('canvas'); var size=200;
+      var w=img.width,h=img.height,min=Math.min(w,h);
+      var sx=(w-min)/2,sy=(h-min)/2;
+      canvas.width=size;canvas.height=size;
+      canvas.getContext('2d').drawImage(img,sx,sy,min,min,0,0,size,size);
+      cb(canvas.toDataURL('image/jpeg',.72));
+    };img.src=e.target.result;
+  };reader.readAsDataURL(file);
+}
+
+async function uploadAvatar(file){
+  compressImg(file,async function(b64){
+    var uid=session&&(session.user&&session.user.id||session.sub); if(!uid)return;
+    await fetch(SB+'/rest/v1/profiles?id=eq.'+uid,{method:'PATCH',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'},body:JSON.stringify({avatar_b64:b64})});
+    if(profile)profile.avatar_b64=b64;
+    toast('Photo updated'); openProfile();
+  });
+}
+
+async function openProfile(){
+  var ov=ge('profile-overlay');if(ov)ov.style.display='block';
+  var el=ge('profile-content');if(!el)return;
+  if(!session||!profile){el.innerHTML='<div class="empty">Not signed in</div>';return;}
+  el.innerHTML='<div style="text-align:center;padding:30px"><div class="spin"></div></div>';
+  var uid=session.user&&session.user.id||session.sub;
+  var resData=await sbGet('reservations?profile_id=eq.'+uid+'&order=created_at.desc&limit=20');
+  var p=profile;
+  var tierColor={bronze:'#8B6914',silver:'#7A8FA6',gold:'#C9A84C',elite:'#9B59B6'}[p.tier]||'#F0EDE8';
+  var avatarHtml=p.avatar_b64
+    ?'<img src="'+p.avatar_b64+'" style="width:66px;height:66px;border-radius:50%;object-fit:cover;border:2px solid '+tierColor+';display:block">'
+    :'<div style="width:66px;height:66px;border-radius:50%;background:#1C1C1C;border:2px solid '+tierColor+';display:flex;align-items:center;justify-content:center;font-size:28px">👤</div>';
+  var refSection='';
+  if(p.referral_code){
+    refSection='<div style="background:#111;border:1px solid #1C1C1C;border-radius:2px;padding:14px;margin-bottom:12px">'
+      +'<div style="font-family:Space Mono,monospace;font-size:9px;font-weight:700;color:#666;letter-spacing:2px;margin-bottom:6px">'+t('myProfile').toUpperCase()+'</div>'
+      +'<div style="font-family:Space Mono,monospace;font-size:8px;color:#444;letter-spacing:1px;line-height:2;margin-bottom:10px">'+t('inviteNote')+'</div>'
+      +'<div style="background:#070707;border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:8px;font-family:Space Mono,monospace;font-size:12px;color:#C9A84C;letter-spacing:4px;text-align:center;margin-bottom:10px">'+p.referral_code+'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
+      +'<button onclick="copyRef()" style="background:#F0EDE8;color:#060606;border:none;border-radius:2px;padding:10px;font-family:Space Mono,monospace;font-size:9px;font-weight:700;cursor:pointer;letter-spacing:1px;-webkit-appearance:none">'+t('copyLink')+'</button>'
+      +'<button onclick="shareRef()" style="background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.3);border-radius:2px;padding:10px;font-family:Space Mono,monospace;font-size:9px;font-weight:700;cursor:pointer;letter-spacing:1px;-webkit-appearance:none">'+t('whatsapp')+'</button>'
+      +'</div>'
+      +'<div style="font-family:Space Mono,monospace;font-size:7px;color:#333;text-align:center;margin-top:8px;letter-spacing:1px">'+(p.referral_used||0)+t('invitedCount')+'</div>'
+      +'</div>';
+  }
+  el.innerHTML=
+    '<div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">'
+    +'<label style="cursor:pointer;position:relative;flex-shrink:0" title="Change photo">'
+    +'<input type="file" accept="image/*" style="display:none" onchange="uploadAvatar(this.files[0])">'
+    +avatarHtml
+    +'<div style="position:absolute;bottom:0;right:0;width:22px;height:22px;border-radius:50%;background:#F0EDE8;display:flex;align-items:center;justify-content:center;font-size:11px">&#128247;</div>'
+    +'</label>'
+    +'<div style="flex:1;min-width:0">'
+    +'<div style="font-family:Space Mono,monospace;font-weight:700;font-size:18px;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(p.name)+'</div>'
+    +(p.member_code?'<div style="font-family:Space Mono,monospace;font-size:7px;color:#444;letter-spacing:2px;margin-top:2px">'+p.member_code+'</div>':'')
+    +'<div style="font-family:Space Mono,monospace;font-size:7px;letter-spacing:2px;padding:3px 8px;border-radius:2px;margin-top:6px;display:inline-block;background:rgba(201,168,76,.1);color:#C9A84C;border:1px solid rgba(201,168,76,.3)">'+(TIER_LBL[p.tier]||p.tier||'—')+'</div>'
+    +'</div></div>'
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">'
+    +'<div style="background:#111;border:1px solid #1C1C1C;border-radius:2px;padding:12px 4px;text-align:center"><div style="font-family:Space Mono,monospace;font-size:26px;font-weight:900;color:#3D9B5A">'+(p.total_attended||0)+'</div><div style="font-family:Space Mono,monospace;font-size:6px;color:#444;letter-spacing:1px;margin-top:2px">'+t('attended')+'</div></div>'
+    +'<div style="background:#111;border:1px solid #1C1C1C;border-radius:2px;padding:12px 4px;text-align:center"><div style="font-family:Space Mono,monospace;font-size:26px;font-weight:900;color:#C9A84C">'+(p.attendance_streak||0)+'</div><div style="font-family:Space Mono,monospace;font-size:6px;color:#444;letter-spacing:1px;margin-top:2px">'+t('streak')+'</div></div>'
+    +'<div style="background:#111;border:1px solid #1C1C1C;border-radius:2px;padding:12px 4px;text-align:center"><div style="font-family:Space Mono,monospace;font-size:26px;font-weight:900;color:#F0EDE8">'+(p.trust_score||0)+'</div><div style="font-family:Space Mono,monospace;font-size:6px;color:#444;letter-spacing:1px;margin-top:2px">'+t('points')+'</div></div>'
+    +'</div>'
+    +refSection
+    +'<div style="font-family:Space Mono,monospace;font-size:9px;font-weight:700;letter-spacing:2px;color:#444;margin-bottom:10px">'+t('myReservations')+'</div>'
+    +renderResCards(resData);
+  setTimeout(function(){generateQRCodes(resData);},100);
+}
+
+function renderResCards(data){
+  if(!data.length)return'<div style="text-align:center;padding:30px;font-family:Space Mono,monospace;font-size:8px;color:#333;letter-spacing:1px">'+t('noReservations')+'</div>';
+  var sL={pending:t('pendingLbl'),approved:t('approvedLbl'),rejected:t('rejectedLbl'),used:t('usedLbl'),cancelled:t('cancelledLbl')};
+  var sC={pending:'rgba(201,168,76,.1)',approved:'rgba(61,155,90,.1)',rejected:'rgba(192,57,43,.1)',used:'rgba(100,100,100,.06)',cancelled:'rgba(100,100,100,.06)'};
+  var sB={pending:'rgba(201,168,76,.3)',approved:'rgba(61,155,90,.3)',rejected:'rgba(192,57,43,.3)',used:'#1C1C1C',cancelled:'#1C1C1C'};
+  var sT={pending:'#C9A84C',approved:'#3D9B5A',rejected:'#C0392B',used:'#555',cancelled:'#444'};
+  return data.map(function(r){
+    var canCancel=r.status==='pending'||r.status==='approved';
+    var d='';try{var dt=new Date((r.event_date||'')+'T12:00:00');d=fmtDate(r.event_date);}catch(e){d=r.event_date||'';}
+    return '<div style="background:#111;border:1px solid #111;border-radius:2px;margin-bottom:8px;overflow:hidden">'
+      +'<div style="background:#0a0a0a;padding:10px 14px;display:flex;align-items:center;justify-content:space-between">'
+      +'<span style="font-family:Space Mono,monospace;font-size:13px;font-weight:700;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%">'+esc(r.event_name||'—')+'</span>'
+      +'<span style="font-family:Space Mono,monospace;font-size:7px;letter-spacing:1px;padding:3px 8px;border-radius:2px;background:'+(sC[r.status]||'rgba(100,100,100,.06)')+';color:'+(sT[r.status]||'#444')+';border:1px solid '+(sB[r.status]||'#1C1C1C')+';white-space:nowrap;flex-shrink:0;margin-left:8px">'+(sL[r.status]||r.status)+'</span>'
+      +'</div>'
+      +'<div style="padding:10px 14px">'
+      +'<div style="font-family:Space Mono,monospace;font-size:8px;color:#555;line-height:2">'+d+(r.event_time?' · '+r.event_time:'')+' · '+(r.guest_count||1)+' pax'+(r.table_name?' · '+esc(r.table_name):'')+'</div>'
+      +(r.status==='approved'?'<div style="display:flex;justify-content:center;padding:12px 0;background:#fff;border-radius:2px;margin:8px 0"><div id="qr-'+r.id+'" style="width:140px;height:140px"></div></div><div style="font-family:Space Mono,monospace;font-size:9px;color:#C9A84C;letter-spacing:3px;text-align:center;margin-bottom:4px">'+esc(r.qr_id||'')+'</div>':'')
+      +(r.status==='used'?'<button data-eid="'+r.event_id+'" data-enm="'+esc(r.event_name||'')+'" class="rate-evt-btn" style="margin-top:6px;width:100%;background:rgba(201,168,76,.08);color:#C9A84C;border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:8px;font-family:Space Mono,monospace;font-size:9px;cursor:pointer;-webkit-appearance:none;letter-spacing:1px">'+t('rateBtnTxt')+'</button>':'')
+      +(canCancel?'<button data-rid="'+r.id+'" class="cancel-res-btn" style="margin-top:6px;width:100%;background:rgba(192,57,43,.06);color:#C0392B;border:1px solid rgba(192,57,43,.15);border-radius:2px;padding:8px;font-family:Space Mono,monospace;font-size:8px;cursor:pointer;-webkit-appearance:none;letter-spacing:1px">'+t('cancelRes')+'</button>':'')
+      +'</div></div>';
+  }).join('');
+}
+
+function generateQRCodes(data){
+  if(typeof QRCode==='undefined')return;
+  data.forEach(function(r){
+    if(r.status!=='approved'||!r.qr_id)return;
+    var el=document.getElementById('qr-'+r.id); if(!el||el.childNodes.length)return;
+    try{new QRCode(el,{text:r.qr_id,width:140,height:140,colorDark:'#060606',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}catch(e){}
+  });
+}
+
+function copyRef(){ var p=profile;if(!p||!p.referral_code)return; var base=location.href.split('?')[0]+(SLUG?'?v='+SLUG:''); var url=base+(base.includes('?')?'&':'?')+'ref='+p.referral_code; if(navigator.clipboard){navigator.clipboard.writeText(url).then(function(){toast(t('copyLink'));});} else toast(url); }
+function shareRef(){ var p=profile;if(!p||!p.referral_code)return; var base=location.href.split('?')[0]+(SLUG?'?v='+SLUG:''); var url=base+(base.includes('?')?'&':'?')+'ref='+p.referral_code; var vn=venue?venue.name:'Listed'; var msg=encodeURIComponent(vn+' — '+url); window.open('https://wa.me/?text='+msg,'_blank'); }
+
+document.addEventListener('click',function(e){
+  if(e.target.classList.contains('cancel-res-btn')){ var rid=e.target.getAttribute('data-rid'); if(rid)cancelRes(rid); }
+  if(e.target.classList.contains('rate-evt-btn')){ var eid=e.target.getAttribute('data-eid'); var enm=e.target.getAttribute('data-enm'); if(eid)openRatingModal(eid,enm||'Event'); }
+});
+
+async function cancelRes(resId){
+  if(!confirm('Cancel reservation?'))return;
+  var r=await fetch(SB+'/rest/v1/reservations?id=eq.'+resId,{method:'PATCH',headers:authHeaders(),body:JSON.stringify({status:'cancelled'})}).then(function(r){return{ok:r.ok};}).catch(function(){return{ok:false};});
+  if(r.ok){toast(t('cancelRes'));openProfile();}else toast(t('error'));
+}
+function closeProfile(){ var ov=ge('profile-overlay');if(ov)ov.style.display='none'; }
+
+// ── RATING ─────────────────────────────────────────────────────────
+function openRatingModal(evId,evName){
+  var existing=document.getElementById('rating-modal'); if(existing)existing.remove();
+  var modal=document.createElement('div'); modal.id='rating-modal'; modal.className='modal-bg on';
+  var sheet=document.createElement('div'); sheet.className='modal-sheet';
+  var ttl=document.createElement('div'); ttl.style.cssText='font-family:Space Mono,monospace;font-weight:700;font-size:13px;letter-spacing:2px;margin-bottom:4px'; ttl.textContent='RATE EVENT';
+  var sub=document.createElement('div'); sub.style.cssText='font-family:Space Mono,monospace;font-size:9px;color:#666;letter-spacing:1px;margin-bottom:20px'; sub.textContent=evName;
+  var stars=document.createElement('div'); stars.id='star-row'; stars.style.cssText='display:flex;justify-content:center;gap:12px;margin-bottom:20px';
+  [1,2,3,4,5].forEach(function(s){var b=document.createElement('button');b.style.cssText='font-size:38px;background:none;border:none;cursor:pointer;-webkit-appearance:none;opacity:.25;transition:opacity .1s';b.textContent='⭐';(function(n){b.onclick=function(){selectStar(n);};})(s);stars.appendChild(b);});
+  var btns=document.createElement('div'); btns.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:8px';
+  var cancel=document.createElement('button'); cancel.style.cssText='background:none;color:#666;border:1px solid #2A2A2A;border-radius:2px;padding:12px;font-family:Space Mono,monospace;font-size:10px;cursor:pointer;-webkit-appearance:none'; cancel.textContent='CANCEL'; cancel.onclick=closeRatingModal;
+  var submit=document.createElement('button'); submit.style.cssText='background:#F0EDE8;color:#060606;border:none;border-radius:2px;padding:12px;font-family:Space Mono,monospace;font-size:10px;font-weight:700;cursor:pointer;-webkit-appearance:none;letter-spacing:1px'; submit.textContent='RATE';
+  (function(eid){submit.onclick=function(){submitRating(eid);};})(evId);
+  btns.appendChild(cancel); btns.appendChild(submit);
+  sheet.appendChild(ttl); sheet.appendChild(sub); sheet.appendChild(stars); sheet.appendChild(btns);
+  modal.appendChild(sheet); document.body.appendChild(modal); window._selectedStar=0;
+}
+function closeRatingModal(){ var m=document.getElementById('rating-modal');if(m)m.remove(); }
+function selectStar(n){ window._selectedStar=n; document.querySelectorAll('#star-row button').forEach(function(b,i){b.style.opacity=i<n?'1':'.25';}); }
+async function submitRating(evId){ if(!window._selectedStar){toast('Select a rating');return;} if(!session)return; var uid=session.user&&session.user.id||session.sub; await fetch(SB+'/rest/v1/event_ratings',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({event_id:evId,profile_id:uid,rating:window._selectedStar})}); closeRatingModal(); toast('Rating saved!'); }
+
+// ── PAYMENT ─────────────────────────────────────────────────────────
+function openPayModal(event,resBody){ _payContext={event:event,resBody:resBody}; ge('pay-modal').classList.add('on'); var en=ge('pay-event-name');if(en)en.textContent=event.name; var am=ge('pay-amount');if(am)am.textContent=event.ticket_price+'₺'; }
+function closePayModal(){ ge('pay-modal').classList.remove('on'); _payContext=null; }
+async function processPayment(){ toast('Payment gateway coming soon'); }
+</script>
+
+</body>
+</html>
